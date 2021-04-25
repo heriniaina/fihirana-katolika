@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.katolika.fihirana.lib" >
+
+
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
+        <meta-data
+            android:name="android.app.searchable"
+            android:resource="@xml/searchable" />
+        <activity
+            android:name="org.katolika.fihirana.lib.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.katolika.fihirana.lib.SearchResultActivity"
+            android:label="@string/title_activity_search_result" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.katolika.fihirana.lib.MainActivity" />
+        </activity>
+        <activity
+            android:name="org.katolika.fihirana.lib.SearchFormActivity"
+            android:label="@string/title_activity_search_form">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.katolika.fihirana.lib.MainActivity" />
+        </activity>
+        <activity
+            android:name="org.katolika.fihirana.lib.CategoryListActivity"
+            android:label="@string/title_activity_category_list" >
+        </activity>
+        <activity
+            android:name="org.katolika.fihirana.lib.FavoriteActivity"
+            android:label="@string/title_favorite_list" >
+        </activity>
+        <activity
+            android:name="org.katolika.fihirana.lib.FihiranaActivity"
+            android:label="@string/title_activity_fihirana" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.katolika.fihirana.lib.MainActivity" />
+        </activity>
+        <activity
+            android:name="org.katolika.fihirana.lib.FihiranaItemActivity"
+            android:label="@string/title_activity_fihirana_item" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.katolika.fihirana.lib.FihiranaActivity" />
+        </activity>
+        <activity
+            android:name="org.katolika.fihirana.lib.HiraItemActivity"
+            android:label="@string/title_activity_hira_item" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.katolika.fihirana.lib.FihiranaItemActivity" />
+        </activity>
+        <activity
+            android:name="org.katolika.fihirana.lib.CategoryItemActivity"
+            android:label="@string/title_activity_category_item" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.katolika.fihirana.lib.CategoryListActivity" />
+        </activity>
+        <activity
+            android:name="org.katolika.fihirana.lib.AboutActivity"
+            android:label="@string/title_activity_about" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.katolika.fihirana.lib.MainActivity" />
+        </activity>
+        <activity
+            android:name="org.katolika.fihirana.lib.SalamoActivity"
+            android:label="@string/title_activity_about" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.katolika.fihirana.lib.MainActivity" />
+        </activity>
+        <activity
+            android:name="org.katolika.fihirana.lib.BaseActivity"
+            android:label="@string/title_activity_base" >
+        </activity>
+    </application>
+
+</manifest>

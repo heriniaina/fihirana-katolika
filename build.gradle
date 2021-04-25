@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        fanampiana {
+            keyAlias 'fihirana-katolika-tao-fanampiana'
+            storeFile file('../../signin key/fka-key-tf')
+        }
+        tsotra {
+            keyAlias 'fihirana-katolika'
+            storeFile file('../../signin key/fka-key')
+        }
+    }
+    compileSdkVersion 29
+    flavorDimensions "normal"
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 29
+        versionCode 23
+        versionName "5.7"
+    }
+    productFlavors {
+        tsotra {
+            applicationId "org.katolika.fihirana"
+        }
+        fanampiana {
+            applicationId "org.katolika.fihirana.fanampiana"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+        }
+        debug {
+        }
+
+    }
+}
+
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = "fihirana-katolika-${variant.versionName}.apk"
+    }
+}
+
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.android.volley:volley:1.2.0'
+    implementation files('libs/android-sqlite-asset-helper.jar')
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+}

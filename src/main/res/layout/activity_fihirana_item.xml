@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    
+    tools:context=".FihiranaItemActivity" >
+	
+	<org.katolika.fihirana.lib.HeaderLayout android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/f_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/page_title"/>
+ 
+    <!-- Artist Name -->
+    <TextView
+        android:id="@+id/f_description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/page_description" />
+
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    >
+		<TextView
+		    android:id="@+id/page_label"
+		    android:layout_width="wrap_content"
+		    android:layout_height="fill_parent"
+		    android:text="@string/fihirana_item_page"
+		    android:padding="8dip" />
+		 
+		<!-- Spinner Dropdown -->
+
+		<EditText
+		    android:id="@+id/txtPage"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:ems="10"
+		    android:inputType="number"
+		    android:imeOptions="actionGo" >
+
+		    <requestFocus />
+		</EditText>
+
+		<Button
+		    android:id="@+id/btnOk"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:onClick="doGoToPage"
+		    android:text="@string/fihirana_item_ok" />
+		    	    
+	</LinearLayout>
+	    
+	<TextView
+	    	android:id="@+id/error_message"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textColor="#ff0000"
+		    android:padding="8dip"
+		    android:visibility="gone" 
+		    />
+
+	<androidx.recyclerview.widget.RecyclerView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/recyclerView"
+		android:padding="5dp"/>
+        
+</LinearLayout>

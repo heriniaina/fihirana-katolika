@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Fihirana Katolika</string>
+    <string name="title_activity_search_result">Search Result</string>
+    <string name="title_activity_search_form">Fitadiavana</string>
+    <string name="search_hint">Ho tadiavina</string>
+    <string name="footer_text"><a href="http://www.katolika.org">www.katolika.org</a></string>
+    <string name="title_favorite_list">Ireo hira tianao</string>
+
+    <!-- search form activity -->
+
+    <string name="search_form_from_title">Eo amin\'ny lohateny:</string>
+    <string name="search_form_from_title_hint">oh: Miantso anao</string>
+    <string name="search_form_from_category">Anaty sokajy:</string>
+    <string name="search_form_from_category_hint">Mifidiana sokajy</string>
+    <string name="search_form_do_search">Tadiavo</string>
+    <string name="title_activity_category_list">Lisitry ny sokajy</string>
+
+    <!-- home -->
+    <string name="activity_main_new_version_title">Voatra vaovao</string>
+    <string name="activity_main_new_version_description">Nisy voatra (version) vaovao nivoaka. Tsindrio eto raha haka azy.</string>
+    <string name="home_fihirana_title">Lisitry ny fihirana</string>
+    <string name="home_fihirana_desc">Ahitanao ny lisitry fihirana voatahiry sy mijery ny fanoroam-pejy</string>
+    <string name="home_sokajy_title">Sokajy rehetra</string>
+    <string name="home_sokajy_desc">Lisitry ny hira araka ny sokajiny ampiasaina amin\'ny litorjia</string>
+    <string name="home_tadiavo_title">Fitadiavana hira</string>
+    <string name="home_tadiavo_desc">Fitadiavana hira araka ny lohateny </string>
+    <string name="title_activity_fihirana">Fihirana</string>
+    <string name="title_activity_fihirana_item">Lisitry ny fihirana</string>
+    <string name="title_activity_hira_item">Hira</string>
+    <string name="title_activity_category_item">Sokajy</string>
+    <string name="search_result_activity_title">Vokatry ny fikarohana</string>
+    <string name="fihirana_item_page">Pejy:</string>
+    <string name="title_activity_about">Mombamomba</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="list_load_more">Tohiny...</string>
+    <string name="list_no_more_song">Tsy misy hira hita.</string>
+    <string name="fihirana_item_ok">Ok</string>
+    <string name="home_favorite_title">Ireo hira notehirizinao</string>
+    <string name="home_favorite_desc">Lisitry ny hira notehirizinao mba mora hiverenana amin\'ny manaraka</string>
+    <string name="home_salamo_desc">Lisitry ny salamo araka ny filaharany</string>
+    <string name="home_salamo_title">Salamo</string>
+    <string name="salamo_activity_title">Salamo :</string>
+
+    <string name="send_to">Zarao...</string>
+    
+    <string name="home_info_title">Momba ny rindrankajy</string>
+    
+    <string name="home_info_desc">Mombamomba ity fitaovana ity, ny isan\'ny hira sns...</string>
+    <string name="katolika">Katolika</string>
+
+</resources>
