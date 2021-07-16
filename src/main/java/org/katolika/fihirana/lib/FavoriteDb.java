@@ -56,17 +56,6 @@ public class FavoriteDb extends SQLiteOpenHelper {
         db.close();
     }
 
-    void saveFavorite(Hira h) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "INSERT INTO android_favorite (id, h_id, h_title, f_title, f_page) VALUES (?, ?, ?, ?, ?)";
-        db.execSQL(sql, new String[]{String.valueOf(h.getId()),
-                String.valueOf(h.getId()),
-                h.getH_title(),
-                h.getF_title().get(0),
-                String.valueOf(h.getF_page().get(0))
-        });
-        db.close();
-    }
 
     Cursor getFavoriteList() {
 

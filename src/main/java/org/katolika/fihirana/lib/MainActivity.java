@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,9 +26,7 @@ import com.android.volley.toolbox.Volley;
 
 public class MainActivity extends BaseActivity {
 	public final static String SEARCH_FROM_TITLE = "org.katolika.fihirana.lib.SEARCH_FROM_TITLE";
-	LinearLayout home_root;
 
-	private AlertDialog.Builder builder;
     private static final String TAG = "MainActivityTag";
     private static final int curVersion = 23;
 
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity {
 		//ImageButton btn_home = (ImageButton) findViewById(R.id.home);
 		//btn_home.setVisibility(View.GONE);
 
-        RelativeLayout layout = findViewById(R.id.home_info_row);
+        ConstraintLayout layout = findViewById(R.id.home_info_row);
 
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity {
     private void showPub()
     {
     	try {
-			builder = new AlertDialog.Builder(MainActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         	
             //.setIcon(R.drawable.icon)
             builder.setTitle("Sorona Masina")
@@ -195,7 +195,7 @@ public class MainActivity extends BaseActivity {
     /* This Runnable creates a Dialog and asks the user to open the Market */ 
     private void showUpdate ()
     {
-        TextView txtInfoTitle = findViewById(R.id.txtInfoTitle);
+        TextView txtInfoTitle = findViewById(R.id.home_info_list_title);
         txtInfoTitle.setTextColor(Color.RED);
         TextView txtInfoDesc = findViewById(R.id.txtInfoDesc);
         RelativeLayout layout = findViewById(R.id.home_info_row);

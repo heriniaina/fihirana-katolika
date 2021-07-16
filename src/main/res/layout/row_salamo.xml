@@ -2,17 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <!-- SQLite row id / hidden by default -->
-
-    <TextView
-        android:id="@+id/h_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
-    <!-- web site title -->
+    android:orientation="vertical"
+    style="@style/row">
 
     <TextView
         android:id="@+id/faha"
@@ -20,10 +11,12 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:gravity="right"
-
-        android:text="150"
-        android:textSize="32sp" />
+        android:gravity="end"
+        android:text="@string/str_example_hira_page"
+        android:textSize="32sp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp" />
 
     <TextView
         android:id="@+id/h_title"
@@ -31,36 +24,17 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/faha"
         android:layout_toRightOf="@+id/faha"
-        android:text="Ny Rako fanekena vaovao"
-        style="@style/row_title" />
+        android:text="@string/str_example_hira_titre"
+        style="@style/row_title"
+        android:layout_toEndOf="@+id/faha" />
 
-    <!-- web site url -->
     <TextView
         android:id="@+id/f_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/h_title"
-        android:layout_toRightOf="@+id/faha"
-        android:text="Fihirana Vaovao"
-        style="@style/row_special" />
-    <TextView
-        android:id="@+id/f_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/h_title"
-        android:layout_toRightOf="@+id/f_title"
-        android:layout_marginLeft="8dp"
-        android:text="250"
-        style="@style/row_special" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_below="@id/f_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/fill"
-        android:layout_marginTop="5dp"
-        />
-
+        android:layout_alignLeft="@id/h_title"
+        android:layout_below="@id/h_title"
+        android:text="@string/str_example_fihirana_title"
+        style="@style/row_special"
+        android:layout_alignStart="@id/h_title" />
 </RelativeLayout>

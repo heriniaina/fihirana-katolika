@@ -1,73 +1,91 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    
-    tools:context=".FihiranaItemActivity" >
-	
-	<org.katolika.fihirana.lib.HeaderLayout android:layout_width="wrap_content" android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/f_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/page_title"/>
- 
-    <!-- Artist Name -->
-    <TextView
-        android:id="@+id/f_description"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        style="@style/page_description" />
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/linearLayout2"
+	android:layout_width="match_parent"
 
-	<LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal"
-	    >
-		<TextView
-		    android:id="@+id/page_label"
-		    android:layout_width="wrap_content"
-		    android:layout_height="fill_parent"
-		    android:text="@string/fihirana_item_page"
-		    android:padding="8dip" />
-		 
-		<!-- Spinner Dropdown -->
+	android:layout_height="match_parent"
+	android:background="@color/background"
+	tools:context=".FihiranaItemActivity">
 
-		<EditText
-		    android:id="@+id/txtPage"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_weight="1"
-		    android:ems="10"
-		    android:inputType="number"
-		    android:imeOptions="actionGo" >
+	<org.katolika.fihirana.lib.HeaderLayout
+		android:id="@+id/headerLayout"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 
-		    <requestFocus />
-		</EditText>
-
-		<Button
-		    android:id="@+id/btnOk"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:onClick="doGoToPage"
-		    android:text="@string/fihirana_item_ok" />
-		    	    
-	</LinearLayout>
-	    
 	<TextView
-	    	android:id="@+id/error_message"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:textColor="#ff0000"
-		    android:padding="8dip"
-		    android:visibility="gone" 
-		    />
+		android:id="@+id/f_title"
+		style="@style/page_title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/headerLayout" />
+
+	<!-- Artist Name -->
+	<TextView
+		android:id="@+id/f_description"
+		style="@style/page_description"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="@+id/f_title"
+		app:layout_constraintTop_toBottomOf="@+id/f_title" />
+
+
+	<TextView
+		android:id="@+id/page_label"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="8dip"
+		android:text="@string/fihirana_item_page"
+		app:layout_constraintEnd_toStartOf="@+id/txtPage"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/txtPage" />
+
+	<!-- Spinner Dropdown -->
+
+	<EditText
+		android:id="@+id/txtPage"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:ems="10"
+		android:imeOptions="actionGo"
+		android:inputType="number"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/page_label"
+		app:layout_constraintTop_toBottomOf="@+id/f_description">
+
+		<requestFocus
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+	</EditText>
+
+
+	<TextView
+		android:id="@+id/error_message"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:textColor="#ff0000"
+		android:visibility="gone"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@id/recyclerView" />
 
 	<androidx.recyclerview.widget.RecyclerView
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
 		android:id="@+id/recyclerView"
-		android:padding="5dp"/>
-        
-</LinearLayout>
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:layout_marginTop="8dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/txtPage"
+		tools:listitem="@layout/row_hira" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

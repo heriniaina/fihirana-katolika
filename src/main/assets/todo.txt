@@ -1,0 +1,9 @@
++ search limit for category
++ content search
+- header layout
+   + search activity theme
+- theming
+- autoupdate
+- about activity
+- night theme
+    * remove tononkira.css from text so that it can be changed for night mode

@@ -49,5 +49,25 @@
     
     <string name="home_info_desc">Mombamomba ity fitaovana ity, ny isan\'ny hira sns...</string>
     <string name="katolika">Katolika</string>
+    <string name="str_hira_not_found">Tsy nisy hira hita</string>
+    <string name="str_example_hira_titre">Feno hafaliana</string>
+    <string name="str_example_hira_page">200</string>
+    <string name="str_sokajy_rehetra">Sokajy rehetra</string>
+    <string name="str_example_fihirana_title">Fihirana Hasina</string>
+    <string name="search_form_from_content">Ao anaty hira :</string>
+    <string name="search_form_from_content_hint">oh: fa mitady ny Fanahy</string>
+    <string name="search_form_content_search">Voalohany hanao ity fitadiavana lalindalina ity ianao ka mila faharetana kely. Hotohizana?</string>
+    <string name="str_eny">Eny</string>
+    <string name="str_tsia">Tsia</string>
+    <string name="search_form_please_wait">Andraso kely....</string>
+    <string name="favorite_removed">Nesorina tao amin\'ny hira tianao ny hira.</string>
+    <string name="favorite_saved">Voatahiry ho tianao ny hira.</string>
+    <string name="favorite_fihirana_not_set">Tsy anaty fihirana</string>
+    <string name="str_hira_not_in_fihirana">Tsy anaty fihirana</string>
+    <string name="str_totalin_ny_hira"><![CDATA[Isan\'ny hira voatahiry : <b>%d</b>]]></string>
+    <string name="about_update_message">Mila internet ny fakàna hira vaovao. Raha efa misy internet ny findainao dia tsindrio ny bokotra tohizo eto ambany.</string>
+    <string name="about_tohizo">Tohizo</string>
+    <string name="about_aoka_ihany">Aoka ihany</string>
+    <string name="dialog_update">Fanavaozana</string>
 
 </resources>

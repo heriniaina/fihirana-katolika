@@ -1,79 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-    
-    <org.katolika.fihirana.lib.HeaderLayout android:layout_width="wrap_content" android:layout_height="wrap_content" />
-    <ScrollView 
-		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
-		    >
-		<LinearLayout
-		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
-		    android:orientation="vertical" >	    
-		    <!-- Label -->
-		    <TextView
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:text="@string/search_form_from_title"
-		        android:padding="8dip" />
-		     
-		    <!-- Input Text -->
-		    <EditText android:id="@+id/txt_from_title"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="8dip"
-		        android:layout_marginRight="8dip"
-		        android:hint="@string/search_form_from_title_hint"
-		        android:imeOptions="actionSearch"
-		        android:singleLine="true"
-		        />
-		 
-		    <!-- <TextView
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:text="@string/search_form_from_content"
-		        android:padding="8dip" />
-		      -->
-		    <!-- Input Text -->
-		    <!-- <EditText android:id="@+id/txt_from_content"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="8dip"
-		        android:layout_marginRight="8dip"
-		        android:hint="@string/search_form_from_content_hint"
-		        />
-		     -->
-		    <TextView
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:text="@string/search_form_from_category"
-		        android:padding="8dip" />
-		     
-		    <!-- Spinner Dropdown -->
-		    <Spinner
-		        android:id="@+id/spinner"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:prompt="@string/search_form_from_category_hint"
-		        android:layout_marginTop="0dip"
-		        android:layout_marginLeft="8dip"
-		        android:layout_marginRight="8dip"
-		    />
-		    
-		        <!-- Add Button -->
-		    <Button android:id="@+id/btn_do_search"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:text="@string/search_form_do_search"
-		        android:layout_marginLeft="8dip"
-		        android:layout_marginTop="8dip"
-		        android:onClick="doSearch"
-		    	android:background="@drawable/btn_blue" 
-		    	style="@style/ButtonText"
-		        />
-		</LinearLayout>
-	</ScrollView>
-</LinearLayout>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/linearLayout3"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+
+	<TextView
+		android:id="@+id/textView"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:padding="8dip"
+		android:text="@string/search_form_from_title"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<!-- Input Text -->
+	<EditText
+		android:id="@+id/txt_from_title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginTop="1dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:background="@drawable/background_edittext"
+		android:hint="@string/search_form_from_title_hint"
+		android:imeOptions="actionSearch"
+		android:singleLine="true"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+	<TextView
+		android:id="@+id/textView2"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="34dp"
+		android:padding="8dip"
+		android:text="@string/search_form_from_content"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/txt_from_title" />
+
+	<!-- Input Text -->
+	<EditText
+		android:id="@+id/txt_from_content"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginTop="1dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:background="@drawable/background_edittext"
+		android:enabled="false"
+		android:hint="@string/search_form_from_content_hint"
+		android:imeOptions="actionSearch"
+		android:singleLine="true"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+	<TextView
+		android:id="@+id/textView3"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="34dp"
+		android:padding="8dip"
+		android:text="@string/search_form_from_category"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/txt_from_content" />
+
+	<!-- Spinner Dropdown -->
+	<Spinner
+		android:id="@+id/spinner"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:layout_marginBottom="8dp"
+		android:background="@drawable/background_spinner"
+		android:popupBackground="@drawable/row_background"
+		android:prompt="@string/search_form_from_category_hint"
+		android:spinnerMode="dialog"
+		app:layout_constraintBottom_toTopOf="@+id/btn_do_search"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textView3"
+		app:layout_constraintVertical_bias="0.0" />
+
+	<!-- Add Button -->
+	<Button
+		android:id="@+id/btn_do_search"
+		style="@style/ButtonText"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="3dp"
+		android:layout_marginLeft="3dp"
+		android:layout_marginEnd="3dp"
+		android:layout_marginRight="3dp"
+		android:background="@drawable/btn_blue"
+		android:text="@string/search_form_do_search"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+
+	<ImageView
+		android:id="@+id/img_clear_title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		app:layout_constraintBottom_toBottomOf="@+id/txt_from_title"
+		app:layout_constraintEnd_toEndOf="@+id/txt_from_title"
+		app:layout_constraintTop_toTopOf="@+id/txt_from_title"
+		android:background="@drawable/ic_baseline_clear_24" />
+
+	<ImageView
+		android:id="@+id/img_clear_content"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		app:layout_constraintBottom_toBottomOf="@+id/txt_from_content"
+		app:layout_constraintEnd_toEndOf="@+id/txt_from_content"
+		app:layout_constraintTop_toBottomOf="@+id/textView2"
+		app:background="@drawable/ic_baseline_clear_24" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

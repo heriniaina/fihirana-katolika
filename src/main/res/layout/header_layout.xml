@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="60dp"
-    android:background="@drawable/gradient_header">
+    android:background="@drawable/header_background">
 
     <ImageButton
         android:id="@+id/home"
@@ -26,7 +26,8 @@
         android:layout_centerVertical="true"
         android:background="@drawable/btn_default"
         android:padding="5dp"
-		android:src="@drawable/btn_search" />
+		android:src="@drawable/btn_search"
+		android:contentDescription="@string/search_hint" />
 
 	<ImageButton
 		android:id="@+id/share"
@@ -75,7 +76,7 @@
 		android:layout_centerVertical="true"
 		android:layout_toEndOf="@+id/home"
 		android:layout_toRightOf="@+id/home"
-		android:text="@string/katolika"
+		android:text="@string/app_name"
 		android:textColor="#FFF"
 		android:textSize="20sp" />
 

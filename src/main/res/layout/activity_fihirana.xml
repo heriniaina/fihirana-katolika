@@ -2,19 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
+
     android:orientation="vertical"
-    
-    tools:context=".FihiranaActivity" >
-	
-	<org.katolika.fihirana.lib.HeaderLayout android:layout_width="wrap_content" android:layout_height="wrap_content" >
+    tools:context=".FihiranaActivity">
+
+    <org.katolika.fihirana.lib.HeaderLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     </org.katolika.fihirana.lib.HeaderLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"/>
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        tools:listitem="@layout/row_fihirana" />
 
-        
+
 </LinearLayout>

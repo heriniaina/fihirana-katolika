@@ -2,35 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    
-    tools:context=".CategoryItemActivity" >
-	
-	<org.katolika.fihirana.lib.HeaderLayout android:layout_width="wrap_content" android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/s_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/page_title"
-        />
- 
-    <!-- Artist Name -->
-    <TextView
-        android:id="@+id/s_description"
-        style="@style/page_description"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        
-        />
+    android:background="@color/background"
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:divider="#529fd4"
-        android:background="#ffffff"
-        android:dividerHeight="1dp"
+    android:orientation="vertical"
+    tools:context=".CategoryItemActivity">
+
+    <org.katolika.fihirana.lib.HeaderLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- Artist Name -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:listSelector="@drawable/home_selector"
-        android:padding="5dp" />
-        
+        android:padding="5dp"
+        tools:listitem="@layout/row_hira" />
+
 </LinearLayout>

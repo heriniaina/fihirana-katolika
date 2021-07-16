@@ -1,34 +1,61 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout4"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    tools:context=".AboutActivity" >
+    android:background="@color/background"
+    tools:context=".AboutActivity">
 
     <org.katolika.fihirana.lib.HeaderLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:id="@+id/headerLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:id="@+id/home_root"
-        android:layout_width="fill_parent"
+    </org.katolika.fihirana.lib.HeaderLayout>
+
+    <TextView
+        android:id="@+id/txtinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout2" />
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical" >
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/frame_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtinfo" />
 
-        <TextView
-            android:id="@+id/txtinfo"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+    <ImageView
+        android:id="@+id/imgSync"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/frame_background"
+        app:layout_constraintBottom_toBottomOf="@+id/txtinfo"
+        app:layout_constraintEnd_toEndOf="@+id/txtinfo"
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout2"
+        android:src="@drawable/ic_baseline_sync_24" />
 
-            <WebView
-                android:id="@+id/webView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
-    </LinearLayout>
-   <org.katolika.fihirana.lib.FooterLayout android:layout_width="fill_parent" android:layout_height="wrap_content" />
- 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,464 +1,337 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/home_background"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/home_root"
-        android:layout_width="fill_parent"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical" >
+        android:adjustViewBounds="true"
+        android:clickable="false"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/footerLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="1.0">
 
-            <LinearLayout
-                android:id="@+id/fragment_layout"
-                android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/fragment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_fihirana_row"
+                style="@style/home_list"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:onClick="displayFihiranaActivity">
+
+                <!-- ListRow Left sied Thumbnail image -->
+
+                <TextView
+                    android:id="@+id/home_fihirana_title"
+                    style="@style/home_list_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_fihirana_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/home_fihirana_list_image"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_width="fill_parent"
+                    android:id="@+id/home_fihirana_list_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/home_fihirana_title"
+                    android:src="@drawable/home_fihirana"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/home_fihirana_title" />
+
+
+                <!-- Title Of Song -->
+
+
+                <!-- Artist Name -->
+
+                <TextView
+                    android:id="@+id/home_fihirana_desc"
+                    style="@style/home_description"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/home_image_bg"
-                    android:clickable="false"
-                    android:scaleType="fitStart"
-                    android:src="@drawable/home_background" />
+                    android:text="@string/home_fihirana_desc"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/home_fihirana_title"
+                    app:layout_constraintTop_toBottomOf="@id/home_fihirana_title" />
 
-                <RelativeLayout
-                    android:id="@+id/home_fihirana_row"
-                    android:layout_width="fill_parent"
+                <!-- Rightend Duration -->
+
+
+                <!-- tsipika -->
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_tadiavo_row"
+                style="@style/home_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="displayTadiavoActivity"
+                android:padding="5dip">
+
+                <ImageView
+                    android:id="@+id/home_tadiavo_list_image"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:contentDescription="@string/home_tadiavo_title"
+                    android:src="@drawable/home_tadiavo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/home_tadiavo_title"
+                    style="@style/home_list_title"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:onClick="displayFihiranaActivity"
-                    android:orientation="horizontal"
-                    android:padding="5dip" >
+                    android:text="@string/home_tadiavo_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/home_tadiavo_list_image"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- ListRow Left sied Thumbnail image -->
-
-                    <LinearLayout
-                        android:id="@+id/home_fihirana_thumbnail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginRight="5dip"
-                        android:background="@drawable/image_bg"
-                        android:padding="3dip" >
-
-                        <ImageView
-                            android:id="@+id/home_fihirana_list_image"
-                            android:layout_width="50dip"
-                            android:layout_height="50dip"
-                            android:src="@drawable/home_fihirana" />
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/home_fihirana_wrap"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_toRightOf="@id/home_fihirana_thumbnail"
-                        android:background="@drawable/home_selector"
-                        android:padding="5dp" >
-
-                        <!-- Title Of Song -->
-
-                        <TextView
-                            android:id="@+id/home_fihirana_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/home_fihirana_title"
-                            style="@style/row_title" />
-
-                        <!-- Artist Name -->
-
-                        <TextView
-                            android:id="@+id/home_fihirana_desc"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/home_fihirana_title"
-                            android:layout_marginRight="30dip"
-                            android:layout_marginTop="1dip"
-                            android:text="@string/home_fihirana_desc"
-                            style="@style/row_description" />
-
-                        <!-- Rightend Duration -->
-
-
-
-                        <!-- tsipika -->
-
-                    </RelativeLayout>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/home_fihirana_wrap"
-                        android:layout_alignLeft="@id/home_fihirana_wrap"
-                        android:layout_alignRight="@id/home_fihirana_wrap"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/fill" />
-
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:id="@+id/home_tadiavo_row"
-                    android:layout_width="fill_parent"
+                <TextView
+                    android:id="@+id/home_tadiavo_desc"
+                    style="@style/home_description"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:onClick="displayTadiavoActivity"
-                    android:orientation="horizontal"
-                    android:padding="5dip" >
-
-                    <LinearLayout
-                        android:id="@+id/home_tadiavo_thumbnail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginRight="5dip"
-                        android:background="@drawable/image_bg"
-                        android:padding="3dip" >
-
-                        <ImageView
-                            android:id="@+id/home_tadiavo_list_image"
-                            android:layout_width="50dip"
-                            android:layout_height="50dip"
-                            android:src="@drawable/home_tadiavo" />
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/home_tadiavo_wrap"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_toRightOf="@id/home_tadiavo_thumbnail"
-                        android:background="@drawable/home_selector"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:id="@+id/home_tadiavo_title"
-                            style="@style/row_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/home_tadiavo_title" />
-
-                        <TextView
-                            android:id="@+id/home_tadiavo_desc"
-                            style="@style/row_description"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/home_tadiavo_title"
-                            android:layout_marginTop="1dip"
-                            android:layout_marginRight="30dip"
-                            android:text="@string/home_tadiavo_desc" />
+                    android:layout_below="@id/home_tadiavo_title"
+                    android:text="@string/home_tadiavo_desc"
+                    app:layout_constraintEnd_toEndOf="@id/home_tadiavo_title"
+                    app:layout_constraintStart_toStartOf="@id/home_tadiavo_title"
+                    app:layout_constraintTop_toBottomOf="@id/home_tadiavo_title" />
 
 
-                    </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/home_tadiavo_wrap"
-                        android:layout_alignLeft="@id/home_tadiavo_wrap"
-                        android:layout_alignRight="@id/home_tadiavo_wrap"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/fill" />
-                </RelativeLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_salamo_row"
+                style="@style/home_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="displaySalamoActivity"
+                android:padding="5dip">
 
-                <RelativeLayout
-                    android:id="@+id/home_salamo_row"
-                    android:layout_width="fill_parent"
+                <!-- ListRow Left sied Thumbnail image -->
+
+                <ImageView
+                    android:id="@+id/home_salamo_list_image"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:contentDescription="@string/salamo_activity_title"
+                    android:src="@drawable/home_salamo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/home_salamo_title"
+                    style="@style/home_list_title"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:onClick="displaySalamoActivity"
-                    android:orientation="horizontal"
-                    android:padding="5dip" >
+                    android:text="@string/home_salamo_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/home_salamo_list_image"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- ListRow Left sied Thumbnail image -->
+                <!-- Artist Name -->
 
-                    <LinearLayout
-                        android:id="@+id/home_salamo_thumbnail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginRight="5dip"
-                        android:background="@drawable/image_bg"
-                        android:padding="3dip" >
-
-                        <ImageView
-                            android:id="@+id/home_salamo_list_image"
-                            android:layout_width="50dip"
-                            android:layout_height="50dip"
-                            android:src="@drawable/home_salamo" />
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/home_salamo_wrap"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_toRightOf="@id/home_salamo_thumbnail"
-                        android:background="@drawable/home_selector"
-                        android:padding="5dp" >
-
-                    <TextView
-                        android:id="@+id/home_salamo_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/home_salamo_title"
-                        style="@style/row_title" />
-
-                    <!-- Artist Name -->
-
-                    <TextView
-                        android:id="@+id/home_salamo_desc"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/home_salamo_title"
-                        android:layout_marginRight="30dip"
-                        android:layout_marginTop="1dip"
-                        android:text="@string/home_salamo_desc"
-                        style="@style/row_description"/>
-
-                    <!-- Rightend Duration -->
-
-
-                    <!-- Rightend Arrow -->
-
-
-						</RelativeLayout>
-						<ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/home_salamo_wrap"
-                        android:layout_alignLeft="@id/home_salamo_wrap"
-                        android:layout_alignRight="@id/home_salamo_wrap"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/fill" />
-                </RelativeLayout>
-
-				<RelativeLayout
-                    android:id="@+id/home_sokajy_row"
-                    android:layout_width="fill_parent"
+                <TextView
+                    android:id="@+id/home_salamo_desc"
+                    style="@style/home_description"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:onClick="displaySokajyActivity"
-                    android:orientation="horizontal"
-                    android:padding="5dip" >
+                    android:text="@string/home_salamo_desc"
+                    app:layout_constraintEnd_toEndOf="@id/home_salamo_title"
+                    app:layout_constraintStart_toStartOf="@id/home_salamo_title"
+                    app:layout_constraintTop_toBottomOf="@id/home_salamo_title" />
 
-                    <!-- ListRow Left sied Thumbnail image -->
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <LinearLayout
-                        android:id="@+id/home_sokajy_thumbnail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginRight="5dip"
-                        android:background="@drawable/image_bg"
-                        android:padding="3dip" >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_sokajy_row"
+                style="@style/home_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="displaySokajyActivity"
+                android:padding="5dip">
 
-                        <ImageView
-                            android:id="@+id/home_sokajy_list_image"
-                            android:layout_width="50dip"
-                            android:layout_height="50dip"
-                            android:src="@drawable/home_sokajy" />
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/home_sokajy_wrap"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_toRightOf="@id/home_sokajy_thumbnail"
-                        android:background="@drawable/home_selector"
-                        android:padding="5dp" >
-
-                        <!-- Title Of Song -->
-
-                        <TextView
-                            android:id="@+id/home_sokajy_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/home_sokajy_title"
-                            style="@style/row_title" />
-
-                        <!-- Artist Name -->
-
-                        <TextView
-                            android:id="@+id/home_sokajy_desc"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/home_sokajy_title"
-                            android:layout_marginRight="30dip"
-                            android:layout_marginTop="1dip"
-                            android:text="@string/home_sokajy_desc"
-                            style="@style/row_description" />
-
-                        <!-- Rightend Duration -->
+                <!-- ListRow Left sied Thumbnail image -->
 
 
+                <ImageView
+                    android:id="@+id/home_sokajy_list_image"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:contentDescription="@string/home_sokajy_title"
+                    android:src="@drawable/home_sokajy"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                        <!-- tsipika -->
+                <!-- Title Of Song -->
 
-                    </RelativeLayout>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/home_sokajy_wrap"
-                        android:layout_alignLeft="@id/home_sokajy_wrap"
-                        android:layout_alignRight="@id/home_sokajy_wrap"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/fill" />
-
-                </RelativeLayout>
-                
-				
-				<RelativeLayout
-                    android:id="@+id/home_favorite_row"
-                    android:layout_width="fill_parent"
+                <TextView
+                    android:id="@+id/home_sokajy_title"
+                    style="@style/home_list_title"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:onClick="displayFavoriteActivity"
-                    android:orientation="horizontal"
-                    android:padding="5dip" >
+                    android:text="@string/home_sokajy_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/home_sokajy_list_image"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- ListRow Left sied Thumbnail image -->
+                <!-- Artist Name -->
 
-                    <LinearLayout
-                        android:id="@+id/home_favorite_thumbnail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginRight="5dip"
-                        android:background="@drawable/image_bg"
-                        android:padding="3dip" >
-
-                        <ImageView
-                            android:id="@+id/home_favorite_list_image"
-                            android:layout_width="50dip"
-                            android:layout_height="50dip"
-                            android:src="@drawable/home_favorite" />
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/home_favorite_wrap"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_toRightOf="@id/home_favorite_thumbnail"
-                        android:background="@drawable/home_selector"
-                        android:padding="5dp" >
-
-                        <!-- Title Of Song -->
-
-                        <TextView
-                            android:id="@+id/home_favorite_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/home_favorite_title"
-                            style="@style/row_title" />
-
-                        <!-- Artist Name -->
-
-                        <TextView
-                            android:id="@+id/home_favorite_desc"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/home_favorite_title"
-                            android:layout_marginRight="30dip"
-                            android:layout_marginTop="1dip"
-                            android:text="@string/home_favorite_desc"
-                            style="@style/row_description"/>
-
-                        <!-- Rightend Duration -->
+                <TextView
+                    android:id="@+id/home_sokajy_desc"
+                    style="@style/home_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/home_sokajy_title"
+                    android:text="@string/home_sokajy_desc"
+                    app:layout_constraintEnd_toEndOf="@id/home_sokajy_title"
+                    app:layout_constraintStart_toStartOf="@id/home_sokajy_title"
+                    app:layout_constraintTop_toBottomOf="@id/home_sokajy_title" />
 
 
-                        <!-- Rightend Arrow -->
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_favorite_row"
+                style="@style/home_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:onClick="displayFavoriteActivity"
+                android:padding="5dip">
 
-                        <!-- tsipika -->
-
-                    </RelativeLayout>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/home_favorite_wrap"
-                        android:layout_alignLeft="@id/home_favorite_wrap"
-                        android:layout_alignRight="@id/home_favorite_wrap"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/fill" />
-
-                </RelativeLayout>
+                <!-- ListRow Left sied Thumbnail image -->
 
 
-				<RelativeLayout
-				    android:id="@+id/home_info_row"
-				    android:layout_width="fill_parent"
-				    android:layout_height="wrap_content"
-				    android:clickable="true"
-				    android:orientation="horizontal"
-				    android:padding="5dip" >
+                <ImageView
+                    android:id="@+id/home_favorite_list_image"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:contentDescription="@string/title_favorite_list"
+                    android:src="@drawable/home_favorite"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-				    <LinearLayout
-				        android:id="@+id/LinearLayout01"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-				        android:layout_alignParentLeft="true"
-				        android:layout_marginRight="5dip"
-				        android:background="@drawable/image_bg"
-				        android:padding="3dip" >
+                <TextView
+                    android:id="@+id/home_favorite_title"
+                    style="@style/home_list_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_favorite_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/home_favorite_list_image"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-				        <ImageView
-				            android:id="@+id/ImageView02"
-				            android:layout_width="50dip"
-				            android:layout_height="50dip"
-				            android:src="@drawable/home_info" />
-				    </LinearLayout>
+                <!-- Artist Name -->
 
-				    <RelativeLayout
-				        android:id="@+id/RelativeLayout01"
-				        android:layout_width="fill_parent"
-				        android:layout_height="fill_parent"
-				        android:layout_toRightOf="@+id/LinearLayout01"
-				        android:background="@drawable/home_selector"
-				        android:padding="5dp" >
-
-				        <TextView
-				            android:id="@+id/txtInfoTitle"
-				            android:layout_width="wrap_content"
-				            android:layout_height="wrap_content"
-				            android:text="@string/home_info_title"
-                            style="@style/row_title" />
-
-				        <TextView
-				            android:id="@+id/txtInfoDesc"
-				            android:layout_width="fill_parent"
-				            android:layout_height="wrap_content"
-				            android:layout_below="@+id/txtInfoTitle"
-				            android:layout_marginRight="30dip"
-				            android:layout_marginTop="1dip"
-				            android:text="@string/home_info_desc"
-                            style="@style/row_description" />
+                <TextView
+                    android:id="@+id/home_favorite_desc"
+                    style="@style/home_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/home_favorite_title"
+                    android:text="@string/home_favorite_desc"
+                    app:layout_constraintEnd_toEndOf="@id/home_favorite_title"
+                    app:layout_constraintStart_toStartOf="@id/home_favorite_title"
+                    app:layout_constraintTop_toBottomOf="@id/home_favorite_title" />
 
 
-				    </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-				    <ImageView
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-				        android:layout_alignBottom="@+id/RelativeLayout01"
-				        android:layout_alignLeft="@+id/RelativeLayout01"
-				        android:layout_alignRight="@+id/RelativeLayout01"
-				        android:scaleType="fitXY"
-				        android:src="@drawable/fill" />
-				</RelativeLayout>
-                
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_info_row"
+                style="@style/home_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="5dip">
+
+
+                <ImageView
+                    android:id="@+id/home_info_list_image"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:contentDescription="@string/title_activity_about"
+                    android:src="@drawable/home_info"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/home_info_list_title"
+                    style="@style/home_list_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_info_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/home_info_list_image"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtInfoDesc"
+                    style="@style/home_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_info_desc"
+                    app:layout_constraintEnd_toEndOf="@id/home_info_list_title"
+                    app:layout_constraintStart_toStartOf="@id/home_info_list_title"
+                    app:layout_constraintTop_toBottomOf="@id/home_info_list_title" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 
     <org.katolika.fihirana.lib.FooterLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:id="@+id/footerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

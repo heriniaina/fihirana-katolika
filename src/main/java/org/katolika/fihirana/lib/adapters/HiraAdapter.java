@@ -6,90 +6,85 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.katolika.fihirana.lib.R;
 import org.katolika.fihirana.lib.interfaces.ItemClickListener;
 import org.katolika.fihirana.lib.interfaces.OnLoadMoreListener;
+import org.katolika.fihirana.lib.models.Fihirana;
 import org.katolika.fihirana.lib.models.Hira;
+import org.katolika.fihirana.lib.models.HiraInfo;
 
 import java.util.List;
 
-public class HiraAdapter extends RecyclerView.Adapter {
-    List<Hira> hiraList;
+public class HiraAdapter extends ListAdapter<HiraInfo, HiraAdapter.HiraHolder> {
+
     boolean loading = false;
     OnLoadMoreListener onLoadMoreListener;
-    ItemClickListener onClickListener;
+    OnRowClickListener onClickListener;
+
+    private static final DiffUtil.ItemCallback<HiraInfo> DIFF_CALLBACK = new DiffUtil.ItemCallback<HiraInfo>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull  HiraInfo oldItem, @NonNull HiraInfo newItem) {
+            return  oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull  HiraInfo oldItem, @NonNull  HiraInfo newItem) {
+            return ( oldItem.getId() == newItem.getId()) && (oldItem.getF_page() == newItem.getF_page()) && (oldItem.getF_title().equals(newItem.getF_title()));
+        }
+    };
+
 
     class HiraHolder extends RecyclerView.ViewHolder{
-        TextView h_id;
         TextView h_title;
         TextView f_page;
         TextView f_title;
         public HiraHolder(@NonNull View itemView) {
             super(itemView);
-            h_id = itemView.findViewById(R.id.h_id);
             h_title = itemView.findViewById(R.id.h_title);
             f_page = itemView.findViewById(R.id.f_page);
             f_title = itemView.findViewById(R.id.f_title);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(onClickListener != null) onClickListener.onClick(view, getAdapterPosition());
-                }
+            itemView.setOnClickListener(view -> {
+                if(onClickListener != null) onClickListener.onClick(getItem(getAbsoluteAdapterPosition()));
             });
         }
 
-        void bind(Hira h) {
-            h_id.setText(String.valueOf(h.getId()));
+        void bind(HiraInfo h) {
             h_title.setText(h.getH_title());
-            if(h.getF_page().get(0) > 0) f_page.setText(String.valueOf(h.getF_page().get(0)));
-            f_title.setText(h.getF_title().get(0));
+            if(h.getF_page() > 0) {
+                f_page.setText(String.valueOf(h.getF_page()));
+                f_title.setText(h.getF_title());
+            } else {
+                f_title.setText(R.string.str_hira_not_in_fihirana);
+                f_page.setText("");
+            }
+
         }
 
     }
 
-    public HiraAdapter (List<Hira> hl, RecyclerView recyclerView) {
-        hiraList = hl;
+    public HiraAdapter () {
+        super(DIFF_CALLBACK);
 
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
-            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    if(!loading
-                            && linearLayoutManager != null
-                            && linearLayoutManager.findLastCompletelyVisibleItemPosition() == hiraList.size() - 1) {
-                        if(onLoadMoreListener != null)
-                        {
-                            onLoadMoreListener.onLoadMore();
-                        }
-                        loading = true;
-                    }
 
-                }
-            });
-        }
     }
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HiraAdapter.HiraHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_hira, parent, false);
         return new HiraHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Hira hira = hiraList.get(position);
-        ((HiraHolder) holder).bind(hira);
+    public void onBindViewHolder(@NonNull HiraAdapter.HiraHolder holder, int position) {
+        holder.bind(getItem(position));
+
     }
 
-    @Override
-    public int getItemCount() {
-        return hiraList.size();
-    }
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
@@ -100,7 +95,11 @@ public class HiraAdapter extends RecyclerView.Adapter {
         loading = false;
     }
 
-    public void setOnClickListener(ItemClickListener onClickListener) {
+    public void setOnClickListener(OnRowClickListener onClickListener) {
         this.onClickListener = onClickListener;
+    }
+
+    public interface OnRowClickListener {
+        void onClick(HiraInfo hira);
     }
 }

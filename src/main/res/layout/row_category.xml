@@ -3,14 +3,9 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dip">
+    style="@style/row">
      
-    <!-- SQLite row id / hidden by default -->
-    <TextView android:id="@+id/s_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
-  
+
     <!-- web site title -->
     <TextView
         android:id="@+id/s_title"

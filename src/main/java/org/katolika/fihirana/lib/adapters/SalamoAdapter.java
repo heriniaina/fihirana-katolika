@@ -6,7 +6,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.katolika.fihirana.lib.DatabaseHelper;
@@ -14,86 +16,71 @@ import org.katolika.fihirana.lib.R;
 import org.katolika.fihirana.lib.interfaces.ItemClickListener;
 import org.katolika.fihirana.lib.interfaces.OnLoadMoreListener;
 import org.katolika.fihirana.lib.models.Hira;
+import org.katolika.fihirana.lib.models.Salamo;
 
 import java.util.List;
+import java.util.Locale;
 
-public class SalamoAdapter extends RecyclerView.Adapter {
-    List<Hira> hiraList;
+public class SalamoAdapter extends ListAdapter<Salamo, SalamoAdapter.SalamoHolder> {
+
     boolean loading = false;
     OnLoadMoreListener onLoadMoreListener;
-    ItemClickListener onClickListener;
+    OnRowClickListener onRowClickListener;
+
+
+    private static final DiffUtil.ItemCallback<Salamo> DIFF_CALLBACK = new DiffUtil.ItemCallback<Salamo>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Salamo oldItem, @NonNull  Salamo newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Salamo oldItem, @NonNull Salamo newItem) {
+            return (oldItem.getId() == newItem.getId()) && (oldItem.getH_title().equals(newItem.getH_title())) && oldItem.getFaha() == newItem.getFaha();
+        }
+    };
 
     class SalamoHolder extends RecyclerView.ViewHolder{
         TextView faha;
-        TextView h_id;
         TextView h_title;
         TextView f_page;
         TextView f_title;
         public SalamoHolder(@NonNull View itemView) {
             super(itemView);
             faha = itemView.findViewById(R.id.faha);
-            h_id = itemView.findViewById(R.id.h_id);
             h_title = itemView.findViewById(R.id.h_title);
             f_page = itemView.findViewById(R.id.f_page);
             f_title = itemView.findViewById(R.id.f_title);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(onClickListener != null) onClickListener.onClick(view, getAdapterPosition());
-                }
+            itemView.setOnClickListener(view -> {
+                if(onRowClickListener != null) onRowClickListener.onClick(getItem(getAbsoluteAdapterPosition()));
             });
         }
 
-        void bind(Hira h) {
+        void bind(Salamo h) {
             faha.setText(String.valueOf(h.getFaha()));
-            h_id.setText(String.valueOf(h.getId()));
             h_title.setText(h.getH_title());
-            if(h.getF_page().get(0) > 0) f_page.setText(String.valueOf(h.getF_page().get(0)));
-            f_title.setText(h.getF_title().get(0));
+            f_title.setText(String.format(Locale.FRANCE, "%s p.%d", h.getF_title(), h.getF_page()));
         }
 
     }
 
-    public SalamoAdapter(List<Hira> hl, RecyclerView recyclerView) {
-        hiraList = hl;
+    public SalamoAdapter() {
+        super(DIFF_CALLBACK);
 
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
-            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    if(!loading
-                            && linearLayoutManager != null
-                            && linearLayoutManager.findLastCompletelyVisibleItemPosition() == hiraList.size() - 1) {
-                        if(onLoadMoreListener != null)
-                        {
-                            onLoadMoreListener.onLoadMore();
-                        }
-                        loading = true;
-                    }
-
-                }
-            });
-        }
     }
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SalamoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_salamo, parent, false);
         return new SalamoHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Hira hira = hiraList.get(position);
-        ((SalamoHolder) holder).bind(hira);
+    public void onBindViewHolder(@NonNull SalamoAdapter.SalamoHolder holder, int position) {
+        Salamo salamo = getItem(position);
+        holder.bind(salamo);
     }
 
-    @Override
-    public int getItemCount() {
-        return hiraList.size();
-    }
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
@@ -104,7 +91,16 @@ public class SalamoAdapter extends RecyclerView.Adapter {
         loading = false;
     }
 
-    public void setOnClickListener(ItemClickListener onClickListener) {
-        this.onClickListener = onClickListener;
+
+    public OnRowClickListener getOnRowClickListener() {
+        return onRowClickListener;
+    }
+
+    public void setOnRowClickListener(OnRowClickListener onRowClickListener) {
+        this.onRowClickListener = onRowClickListener;
+    }
+
+    public interface OnRowClickListener {
+        void onClick(Salamo salamo);
     }
 }

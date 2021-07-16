@@ -1,36 +1,15 @@
 package org.katolika.fihirana.lib.models;
 
-public class Fihirana {
-    int id;
-    String name;
-    String description;
+public class Fihirana  extends org.katolika.fihirana.lib.entities.Fihirana {
+
     int cnt;
 
-    public Fihirana() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
+        this.setF_title(name);
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        setF_description(description);
     }
 
     public int getCnt() {

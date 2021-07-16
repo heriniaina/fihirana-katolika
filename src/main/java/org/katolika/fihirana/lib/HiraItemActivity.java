@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -12,19 +13,22 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProvider;
+
+import org.katolika.fihirana.lib.database.FavoriteViewModel;
+import org.katolika.fihirana.lib.database.FihiranaViewModel;
 import org.katolika.fihirana.lib.models.Hira;
 
 import java.io.InputStream;
 
 public class HiraItemActivity extends BaseActivity  {
+	private static final String TAG = "HiraItemActivity";
+	FihiranaViewModel fihiranaViewModel;
+	FavoriteViewModel favoriteViewModel;
 
-	DatabaseHelper db;
-    FavoriteDb fb;
-	int isFavorite = 0;
 	int h_id = 0;
-	int f_id = 0;
 
-	String h_text;
+	String h_text = "";
 	ImageButton btn_favorite_on;
 	ImageButton btn_favorite_off;
 	ImageButton btn_share;
@@ -34,176 +38,101 @@ public class HiraItemActivity extends BaseActivity  {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_hira_item);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		db = new DatabaseHelper(this);
-        fb = new FavoriteDb(this);
 
-		/*
-        LinearLayout h_view = (LinearLayout) findViewById(R.id.h_view);
-		
-		OnSwipeTouchListener listener = new OnSwipeTouchListener() {
 
-			@Override
-		    public void onSwipeRight() {
-		        Toast.makeText(HiraItemActivity.this, "right", Toast.LENGTH_SHORT).show();
-		    }
-			
-			@Override
-		    public void onSwipeLeft() {
-		        Toast.makeText(HiraItemActivity.this, "left", Toast.LENGTH_SHORT).show();
-		    }
-		    
-        };
-        h_view.setOnTouchListener(listener);
-        */
-		getHira();
-		
-				
-
-	}
-
-	public void onDestroy() {
-		super.onDestroy();
-		if (db != null) {
-			db.close();
-		}
-        if(fb != null) {
-            fb.close();
-        }
-	}
-	
-	private void getHira()
-	{
 		Intent intent = getIntent();
 		h_id = intent.getIntExtra("org.katolika.fihirana.lib.H_ID", 0);
-		f_id = intent.getIntExtra("org.katolika.fihirana.lib.F_ID", 0);
-		
-		btn_favorite_on = findViewById(R.id.favorite_on);
+
 		btn_favorite_off = findViewById(R.id.favorite_off);
+		btn_favorite_on = findViewById(R.id.favorite_on);
 		btn_share = findViewById(R.id.share);
-		
-		
 
-		
-		
-		isFavorite = fb.isFavorite(h_id);
 
-		
-		final Hira hira = db.getHiraItem(h_id);
-		
+		fihiranaViewModel = new ViewModelProvider(this).get(FihiranaViewModel.class);
+		favoriteViewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
 
-		if (hira != null) {
+		fihiranaViewModel.getHiraItem(h_id).observe(this, hira -> {
 
-			btn_share.setVisibility(View.VISIBLE);
-			
 			// fill hira info
 			TextView t_title = findViewById(R.id.h_title);
 			t_title.setText(hira.getH_title());
 
+			WebView t_text = findViewById(R.id.h_text);
+
+			t_text.getSettings().setSupportZoom(true);
+			t_text.getSettings().setBuiltInZoomControls(true);
+			t_text.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+			t_text.setScrollbarFadingEnabled(true);
 
 
-            WebView t_text = findViewById(R.id.h_text);
-
-            t_text.getSettings().setSupportZoom(true);
-            t_text.getSettings().setBuiltInZoomControls(true);
-            t_text.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-            t_text.setScrollbarFadingEnabled(true);
-                try {
-                    t_text.loadUrl("file:///android_asset/files/" + h_id + ".html");
-                } catch (Exception e) {
-                    // Should never happen!
-                    t_text.loadData("Tsy hita ny hira, miala tsiny.", null, null);
-                }
-
-
-
-			// WebView h_text = (WebView) findViewById(R.id.h_text);
-			// h_text.getSettings().setBuiltInZoomControls(true);
-			// h_text.setInitialScale(0);
-			// h_text.getSettings().setUseWideViewPort(false);
-			// h_text.loadDataWithBaseURL("file:///android_asset/", t,
-			// "text/html", "utf-8", null);
-
-		}
-
-
-		if (isFavorite == 0) {
-			btn_favorite_off.setVisibility(View.VISIBLE);
-			btn_favorite_on.setVisibility(View.GONE);
-		} else {
-			btn_favorite_off.setVisibility(View.GONE);
-			btn_favorite_on.setVisibility(View.VISIBLE);
-		}
-
-		btn_favorite_on.setOnClickListener(new OnClickListener() {
-			public void onClick(View item) {
-				btn_favorite_off.setVisibility(View.VISIBLE);
-				btn_favorite_on.setVisibility(View.GONE);
-				fb.removeFavorite(h_id);
-				Toast.makeText(HiraItemActivity.this,
-						"Nesorina tao amin'ny hira tianao ny hira.",
-						Toast.LENGTH_LONG).show();
-				isFavorite = 0;
+			if(hira.getH_text() != null && !hira.getH_text().isEmpty()) {
+				h_text = hira.getH_text();
 			}
-		});
+			else {
+				try {
+					InputStream is = getAssets().open("files/" + hira.getId() + ".html");
+					int size = is.available();
 
-		btn_favorite_off.setOnClickListener(new OnClickListener() {
-			public void onClick(View item) {
-				if(hira != null){
-					btn_favorite_off.setVisibility(View.GONE);
-					btn_favorite_on.setVisibility(View.VISIBLE);
-					fb.saveFavorite(hira);
-					Toast.makeText(HiraItemActivity.this,
-							"Voatahiry ho tianao ny hira.", Toast.LENGTH_LONG)
-							.show();
-					isFavorite = 1;
+					// Read the entire asset into a local byte buffer.
+					byte[] buffer = new byte[size];
+					is.read(buffer);
+					is.close();
+					h_text = new String(buffer);
+					hira.setH_text(h_text);
+					fihiranaViewModel.updateHira(hira);
+				} catch (Exception e) {
+					Log.e(TAG, "onCreate: text file not accessible " + e.getMessage());
 				}
-
-
 			}
-		});
 
-		btn_share.setOnClickListener( new OnClickListener(){
-			public void onClick(View item) {
+			t_text.loadDataWithBaseURL (null, h_text, "text/html", "UTF-8", null);
+
+			btn_favorite_on.setOnClickListener(item -> {
+				favoriteViewModel.removeFavorite(h_id);
+				Toast.makeText(HiraItemActivity.this,
+						R.string.favorite_removed,
+						Toast.LENGTH_SHORT).show();
+
+			});
+
+			btn_favorite_off.setOnClickListener(item -> {
+				favoriteViewModel.saveFavorite(hira);
+				Toast.makeText(HiraItemActivity.this,
+						R.string.favorite_saved, Toast.LENGTH_SHORT)
+						.show();
+
+			});
+
+			btn_share.setOnClickListener(item -> {
 				Intent sendIntent = new Intent();
 				sendIntent.setAction(Intent.ACTION_SEND);
 				String toSend = "Lohateny: " + hira.getH_title() + "\n";
-				if(hira.getF_title().size() > 0)
-				{
-					toSend += "Fihirana: " + hira.getF_title().get(0) + " " + hira.getF_page().get(0) + "\n";
-				}
-                toSend += "Rohy: http://katolika.org/fihirana/hira/show/" + hira.getId() + "\n" +
-                        "------------\n" ;
-                try {
-                    InputStream is = getAssets().open("files/" + hira.getId() + ".html");
+//					if(hira.getF_title().size() > 0)
+//					{
+//						toSend += "Fihirana: " + hira.getF_title().get(0) + " " + hira.getF_page().get(0) + "\n";
+//					}
+				toSend += "Rohy: https://katolika.org/fihirana/hira/show/" + hira.getId() + "\n" +
+						"------------\n" ;
 
-                    // We guarantee that the available method returns the total
-                    // size of the asset... of course, this does mean that a single
-                    // asset can't be more than 2 gigs.
-                    int size = is.available();
-
-                    // Read the entire asset into a local byte buffer.
-                    byte[] buffer = new byte[size];
-                    is.read(buffer);
-                    is.close();
-
-                    // Convert the buffer into a string.
-                    h_text = new String(buffer);
-
-
-                    toSend += Html.fromHtml(h_text).toString() +
-                            "\n------------\nkatolika.org";
-
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
+				toSend += hira.getH_text();
+				toSend += "\n------------\nkatolika.org";
 
 
 				sendIntent.putExtra(Intent.EXTRA_TEXT, toSend);
 				sendIntent.setType("text/plain");
 				startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
-			}
+			});
+
 		});
 
+		favoriteViewModel.isFavorite(h_id).observe(this, isFavorite -> {
+			if (isFavorite == 0) {
+				btn_favorite_off.setVisibility(View.VISIBLE);
+				btn_favorite_on.setVisibility(View.GONE);
+			} else {
+				btn_favorite_off.setVisibility(View.GONE);
+				btn_favorite_on.setVisibility(View.VISIBLE);
+			}
+		});
 	}
 }

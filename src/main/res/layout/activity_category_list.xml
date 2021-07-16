@@ -2,21 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    
-    tools:context=".CategoryListActivity" >
-	
-	<org.katolika.fihirana.lib.HeaderLayout android:layout_width="wrap_content" android:layout_height="wrap_content" />
-    
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:divider="#529fd4"
-        android:dividerHeight="1dp"
-        android:background="#ffffff"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".CategoryListActivity">
+
+    <org.katolika.fihirana.lib.HeaderLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:listSelector="@drawable/home_selector"
-        android:padding="5dp" />
-        
+        android:padding="5dp"
+        tools:listitem="@layout/row_category" />
+
 </LinearLayout>

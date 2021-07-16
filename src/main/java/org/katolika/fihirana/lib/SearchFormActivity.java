@@ -1,222 +1,302 @@
 package org.katolika.fihirana.lib;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.preference.Preference;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+
+import org.katolika.fihirana.lib.database.FihiranaViewModel;
+import org.katolika.fihirana.lib.entities.Hira;
+import org.katolika.fihirana.lib.entities.Sokajy;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchFormActivity extends BaseActivity {
 
-	// Spinner element
-	Spinner spinner;
-	String search_from_category;
-	DatabaseHelper db;
-	private ProgressDialog pDialog;
-	SharedPreferences prefs;
-
-	@SuppressLint("NewApi")
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_search_form);
-
-		ImageButton ib = (ImageButton) findViewById(R.id.search);
-		ib.setVisibility(View.INVISIBLE);
-		// Loading spinner data from database
-		new loadSpinnerData().execute();
-
-		prefs = getSharedPreferences("org.katolika.fihirana.lib", 0);
+    // Spinner element
+    private static final String TAG = "SearchFormActivity";
+    Spinner spinner;
+    FihiranaViewModel fihiranaViewModel;
+    SharedPreferences prefs;
+    EditText etTitle;
+    EditText etContent;
+    Button btnSearch;
+    ImageView imgClearTitle;
+    ImageView imgClearContent;
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_form);
 
-		EditText et =  findViewById(R.id.txt_from_title);
+        imgClearTitle = findViewById(R.id.img_clear_title);
+        imgClearContent = findViewById(R.id.img_clear_content);
 
-		et.append(prefs.getString("tadiavo", ""));
+        prefs = getSharedPreferences("org.katolika.fihirana.lib", 0);
+        spinner = findViewById(R.id.spinner);
 
-		et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId,
-										  KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-					doSearch(v);
-					return true;
-				}
-				return false;
-			}
-		});
+        ArrayList<SpinnerData> items = new ArrayList<>();
+        items.add(new SpinnerData(getResources().getString(R.string.str_sokajy_rehetra), 0));
+        ArrayAdapter<SpinnerData> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        spinner.setAdapter(adapter);
 
-	}
+        fihiranaViewModel = new ViewModelProvider(this).get(FihiranaViewModel.class);
+        fihiranaViewModel.getSokajyList().observe(this, sokajyList -> {
+            for (Sokajy sokajy : sokajyList) {
+                items.add(new SpinnerData(sokajy.getS_title(), sokajy.getId()));
+            }
+            adapter.notifyDataSetChanged();
+        });
+        btnSearch = findViewById(R.id.btn_do_search);
+        btnSearch.setOnClickListener(view -> {
+            doSearch();
+        });
 
-	public void doSearch(View view) {
-		Intent intent = new Intent(this, SearchResultActivity.class);
+        etTitle = findViewById(R.id.txt_from_title);
+        etContent = findViewById(R.id.txt_from_content);
+        etContent.setEnabled(true);
 
-		EditText txt_from_title = (EditText) findViewById(R.id.txt_from_title);
-		String search_from_title = txt_from_title.getText().toString();
+        etTitle.append(prefs.getString("tadiavo", ""));
 
-		SharedPreferences.Editor editor = prefs.edit();
-		editor.putString("tadiavo", search_from_title);
-		editor.apply();
+        if (etTitle.getText().length() > 0) {
+            imgClearTitle.setVisibility(View.VISIBLE);
+        } else {
+            imgClearTitle.setVisibility(View.GONE);
+        }
 
-		intent.putExtra("org.katolika.fihirana.lib.SEARCH_FROM_TITLE",
-				search_from_title);
+        etContent.append(prefs.getString("tadiavo_content", ""));
 
-//		EditText txt_from_content = (EditText) findViewById(R.id.txt_from_content);
-//		String search_from_content = txt_from_content.getText().toString();
-//		intent.putExtra("org.katolika.fihirana.lib.SEARCH_FROM_CONTENT",
-//				search_from_content);
+        etTitle.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                doSearch();
+                return true;
+            }
+            return false;
+        });
+        if (etContent.getText().length() > 0) {
+            imgClearContent.setVisibility(View.VISIBLE);
+        } else {
+            imgClearContent.setVisibility(View.GONE);
+        }
 
-		intent.putExtra(
-				"org.katolika.fihirana.lib.SEARCH_FROM_CATEGORY",
-				search_from_category);
+        imgClearTitle.setOnClickListener(img -> {
+            etTitle.setText("");
+        });
 
-		startActivity(intent);
-	}
+        imgClearContent.setOnClickListener(img -> {
+            etContent.setText("");
+        });
+        etContent.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                doSearch();
+                return true;
+            }
+            return false;
+        });
 
-	public void onDestroy() {
-		super.onDestroy();
-		if (db != null) {
-			db.close();
-		}
-	}
+        etTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-	class MyData {
-		String spinnerText;
-		String value;
+            }
 
-		public MyData(String spinnerText, String value) {
-			this.spinnerText = spinnerText;
-			this.value = value;
-		}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-		public String getSpinnerText() {
-			return spinnerText;
-		}
+            }
 
-		public String getValue() {
-			return value;
-		}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.length() > 0) {
+                    imgClearTitle.setVisibility(View.VISIBLE);
+                } else {
+                    imgClearTitle.setVisibility(View.GONE);
+                }
+            }
+        });
 
-		public String toString() {
-			return spinnerText;
-		}
-	}
+        etContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-	/**
-	 * Background Async Task to get RSS data from URL
-	 * */
-	class loadSpinnerData extends AsyncTask<String, String, String> {
+            }
 
-		/**
-		 * Before starting background thread Show Progress Dialog
-		 * */
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			pDialog = new ProgressDialog(SearchFormActivity.this);
-			pDialog.setMessage("Andraso kely ...");
-			pDialog.setIndeterminate(false);
-			pDialog.setCancelable(false);
-			pDialog.show();
-		}
+            }
 
-		/**
-		 * getting all stored website from SQLite
-		 * */
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.length() > 0) {
+                    imgClearContent.setVisibility(View.VISIBLE);
+                } else {
+                    imgClearContent.setVisibility(View.GONE);
+                }
+            }
+        });
 
-		@Override
-		protected String doInBackground(String... args) {
-			// updating UI from Background Thread
-			runOnUiThread(new Runnable() {
-				public void run() {
-					try
-					{
-						db = new DatabaseHelper(SearchFormActivity.this);
+        //missing h_text
+        etContent.setOnFocusChangeListener((view, b) -> {
+            if (b) {
+                fihiranaViewModel.getHiraEmptyTextCount().observe(this, integer -> {
+                    Log.d(TAG, "onCreate: empty count " + integer);
+                    if (integer > 0) {
+                    	etContent.setEnabled(false);
+                    	etContent.setHint(R.string.search_form_please_wait);
+                        fihiranaViewModel.getHiraEmptyText().observe(SearchFormActivity.this, hiraList -> {
+                            List<Hira> newHiraList = new ArrayList<>();
+                            for (Hira hira : hiraList) {
+                                Log.d(TAG, "onCreate: to update " + hira.getH_title());
+                                try {
+                                    InputStream is = getAssets().open("files/" + hira.getId() + ".html");
+                                    int size = is.available();
 
-
-						Cursor c = db.getCategoryListNotEmpty();
-
-						int i = 1;
-						Spinner s = (Spinner)findViewById(R.id.spinner);
-						final MyData items[] = new MyData[ c.getCount() + 1]; // misy an'ilay empty voalohany
-
-						items[0] = new MyData("[Sokajy rehetra]", "");
-						if (c.moveToFirst())
-						{
-
-							do {
-								//satria ny row voalohany ihany no miseho
-								items[i] = new MyData(c.getString(1), c.getString(0));
-								i++;
-							} while (c.moveToNext());
-						}
-
-						c.close();
-						db.close();
-						ArrayAdapter<MyData> adapter =
-								new ArrayAdapter<MyData>(
-										SearchFormActivity.this,
-										android.R.layout.simple_spinner_item,
-										items );
-						adapter.setDropDownViewResource(
-								android.R.layout.simple_spinner_dropdown_item);
-						s.setAdapter(adapter);
-						s.setOnItemSelectedListener(
-								new AdapterView.OnItemSelectedListener()
-								{
-									public void onItemSelected(
-											AdapterView<?> parent,
-											View view,
-											int position,
-											long id)
-									{
-										MyData d = items[position];
-										search_from_category = d.getValue();
-									}
-
-									public void onNothingSelected(AdapterView<?> parent)
-									{
-
-										// TODO nothing
-
-									}
-								}
-						);
+                                    // Read the entire asset into a local byte buffer.
+                                    byte[] buffer = new byte[size];
+                                    is.read(buffer);
+                                    is.close();
+                                    hira.setH_text(new String(buffer));
+                                    newHiraList.add(hira);
+                                } catch (Exception e) {
+                                    Log.e("SearchFormActivity108", "text file not accessible " + e.getMessage());
+                                }
+                            }
+                            if (!newHiraList.isEmpty()) {
+                                Log.d(TAG, "onCreate: " + newHiraList.size());
+                                fihiranaViewModel.updateHiraList(newHiraList);
+                            }
+                        });
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                        builder.setMessage(R.string.search_form_content_search)
+//                                .setPositiveButton(R.string.str_eny, (dialogInterface, i) -> {
+//                                    fihiranaViewModel.getHiraEmptyText().observe(SearchFormActivity.this, hiraList -> {
+//                                        List<Hira> newHiraList = new ArrayList<>();
+//                                        for (Hira hira : hiraList) {
+//                                            Log.d(TAG, "onCreate: to update " + hira.getH_title());
+//                                            try {
+//                                                InputStream is = getAssets().open("files/" + hira.getId() + ".html");
+//                                                int size = is.available();
+//
+//                                                // Read the entire asset into a local byte buffer.
+//                                                byte[] buffer = new byte[size];
+//                                                is.read(buffer);
+//                                                is.close();
+//                                                hira.setH_text(new String(buffer));
+//                                                newHiraList.add(hira);
+//                                            } catch (Exception e) {
+//                                                Log.e("SearchFormActivity108", "text file not accessible " + e.getMessage());
+//                                            }
+//                                        }
+//                                        if (!newHiraList.isEmpty()) {
+//                                            Log.d(TAG, "onCreate: " + newHiraList.size());
+//                                            fihiranaViewModel.updateHiraList(newHiraList);
+//                                        }
+//                                    });
+//                                })
+//                                .setNegativeButton(R.string.str_tsia, (dialogInterface, i) -> {
+//                                	etContent.setEnabled(true);
+//									etContent.setHint(R.string.search_form_from_content_hint);
+//                                    dialogInterface.cancel();
+//                                }).show();
+                    } else {
+                    	etContent.setEnabled(true);
+                    	etContent.setHint(R.string.search_form_from_content_hint);
 					}
-					catch(Exception e)
-					{
-						Log.e("SearchForm l.160", e.toString());
-					}
-					finally {
-						if (db != null) {
-							db.close();
-						}
-					}
-				}
-			});
-			return null;
-		}
+                });
 
-		/**
-		 * After completing background task Dismiss the progress dialog
-		 * **/
-		protected void onPostExecute(String args) {
-			// dismiss the dialog after getting all products
-			pDialog.dismiss();
-		}
-	}
+            } else {
+                etContent.setEnabled(true);
+            }
+        });
+
+    }
+
+    public void doSearch() {
+        Intent intent = new Intent(this, SearchResultActivity.class);
+
+        String search_from_title = etTitle.getText().toString();
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString("tadiavo", search_from_title);
+
+        int search_from_category = ((SpinnerData) spinner.getAdapter().getItem(spinner.getSelectedItemPosition())).getValue();
+
+
+        intent.putExtra("org.katolika.fihirana.lib.SEARCH_FROM_TITLE",
+                search_from_title);
+
+		String search_from_content = etContent.getText().toString();
+        editor.putString("tadiavo_content", search_from_content );
+
+        editor.apply();
+
+
+        intent.putExtra("org.katolika.fihirana.lib.SEARCH_FROM_CONTENT",
+				search_from_content);
+
+        intent.putExtra(
+                "org.katolika.fihirana.lib.SEARCH_FROM_CATEGORY",
+                search_from_category);
+
+        startActivity(intent);
+        this.finish();
+    }
+
+
+    static class SpinnerData {
+        String spinnerText;
+        int value;
+
+        public SpinnerData(String spinnerText, int value) {
+            this.spinnerText = spinnerText;
+            this.value = value;
+        }
+
+        public String getSpinnerText() {
+            return spinnerText;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public String toString() {
+            return spinnerText;
+        }
+    }
+
+//    private class SpinnerAdapter extends ArrayAdapter<SpinnerData> {
+//
+//        public SpinnerAdapter(Context context, int resource, List<SpinnerData> items) {
+//            super(context, resource, items);
+//        }
+//
+//        @Override
+//        public View getDropDownView(int position, @Nullable @android.support.annotation.Nullable View convertView, @NonNull @android.support.annotation.NonNull ViewGroup parent) {
+//            return super.getDropDownView(position, convertView, parent);
+//        }
+//    }
+
 }

@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.katolika.fihirana.lib.R;
@@ -15,11 +17,22 @@ import org.katolika.fihirana.lib.models.Fihirana;
 
 import java.util.List;
 
-public class FihiranaAdapter extends RecyclerView.Adapter {
+public class FihiranaAdapter extends ListAdapter<Fihirana, FihiranaAdapter.FihiranaHolder> {
 
     private static final String TAG = "FihiranaAdapter";
-    private List<Fihirana> fihiranaList;
-    private ItemClickListener clickListener;
+    private OnRowClickListener clickListener;
+
+    private static final DiffUtil.ItemCallback<Fihirana> DIFF_CALLBACK = new DiffUtil.ItemCallback<Fihirana>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull  Fihirana oldItem, @NonNull  Fihirana newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull  Fihirana oldItem, @NonNull  Fihirana newItem) {
+            return (oldItem.getId() == newItem.getId()) && (oldItem.getF_title().equals(newItem.getF_title()));
+        }
+    };
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -37,27 +50,25 @@ public class FihiranaAdapter extends RecyclerView.Adapter {
             f_id = v.findViewById(R.id.f_id);
             f_description = v.findViewById(R.id.f_description);
             cnt = v.findViewById(R.id.cnt);
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(clickListener != null) clickListener.onClick(view, getAdapterPosition());
-                }
+            v.setOnClickListener(view -> {
+                int position = getAbsoluteAdapterPosition();
+                if(clickListener != null) clickListener.onClick(getItem(position));
             });
         }
 
         void bind(Fihirana fihirana)
         {
-            f_description.setText(fihirana.getDescription());
-            f_title.setText(fihirana.getName());
+            Log.d(TAG, "bind: f_title " + fihirana.getF_title());
+            f_description.setText(fihirana.getF_description());
+            f_title.setText(fihirana.getF_title());
             f_id.setText(String.valueOf(fihirana.getId()));
             cnt.setText(String.valueOf(fihirana.getCnt()));
         }
 
     }
 
-    public FihiranaAdapter(List<Fihirana> fl) {
-        fihiranaList = fl;
-
+    public FihiranaAdapter() {
+        super(DIFF_CALLBACK);
     }
 
     @NonNull
@@ -68,24 +79,15 @@ public class FihiranaAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof FihiranaHolder)
-        {
-            Fihirana fihirana = fihiranaList.get(position);
-            ((FihiranaHolder) holder).bind(fihirana);
-        }
-
+    public void onBindViewHolder(@NonNull FihiranaAdapter.FihiranaHolder holder, int position) {
+        holder.bind(getItem(position));
     }
 
-
-
-    @Override
-    public int getItemCount() {
-
-        return fihiranaList.size();
-    }
-
-    public void setClickListener(ItemClickListener clickListener) {
+    public void setClickListener(OnRowClickListener clickListener) {
         this.clickListener = clickListener;
+    }
+
+    public interface OnRowClickListener {
+        void onClick(Fihirana fihirana);
     }
 }

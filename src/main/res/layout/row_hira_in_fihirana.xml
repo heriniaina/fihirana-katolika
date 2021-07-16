@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    style="@style/row"
+    android:orientation="vertical"
+    android:layout_margin="5dp">
+     
+    <TextView
+        android:id="@+id/h_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/row_title"
+        android:layout_toRightOf="@id/f_page"
+        android:layout_toEndOf="@id/f_page"
+        android:text="@string/str_example_hira_titre"
+        android:textStyle="normal"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp" />
+
+
+    <TextView
+        android:id="@+id/f_page"
+        style="@style/row_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/str_example_hira_page"
+        android:layout_marginLeft="8dp" />
+
+
+  
+</RelativeLayout>

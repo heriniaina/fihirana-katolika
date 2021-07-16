@@ -9,6 +9,8 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,20 +18,25 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.katolika.fihirana.lib.adapters.HiraAdapter;
+import org.katolika.fihirana.lib.database.FihiranaViewModel;
 import org.katolika.fihirana.lib.interfaces.ItemClickListener;
 import org.katolika.fihirana.lib.interfaces.OnLoadMoreListener;
 import org.katolika.fihirana.lib.models.Fihirana;
 import org.katolika.fihirana.lib.models.Hira;
+import org.katolika.fihirana.lib.models.HiraInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,15 +44,10 @@ import java.util.List;
 
 public class FihiranaItemActivity extends BaseActivity {
 
-	private ProgressDialog pDialog;
+	private static final String TAG = "FihiranaItemActivityTAG";
 
-	String[] sqliteIds;
+	private FihiranaViewModel fihiranaViewModel;
 
-	ListView lv;
-
-	DatabaseHelper db;
-
-	Handler mainHandler = new Handler();
 	int f_id;
 	int f_page;
 	int limit = 30;
@@ -54,15 +56,22 @@ public class FihiranaItemActivity extends BaseActivity {
 
 	RecyclerView recyclerView;
 	HiraAdapter hiraAdapter;
-	List<Hira> hiraList;
-
+	EditText txtPage;
+	TextView txtMessage;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_fihirana_item);
 
-		db = new DatabaseHelper(FihiranaItemActivity.this);
+		//binding
+		TextView f_title = findViewById(R.id.f_title);
+		TextView f_description = findViewById(R.id.f_description);
+		txtPage = findViewById(R.id.txtPage);
+		txtMessage = findViewById(R.id.error_message);
+
+
+
 		prefs = getApplicationContext().getSharedPreferences("org.katolika.fihirana.lib", 0);
 
 
@@ -70,85 +79,15 @@ public class FihiranaItemActivity extends BaseActivity {
 		f_id = intent.getIntExtra("org.katolika.fihirana.lib.F_ID", 0);
 		f_page = prefs.getInt("fihirana" + f_id, 0);
 
-		Fihirana f = db.getFihiranaItem(f_id);
+		fihiranaViewModel = new ViewModelProvider(this).get(FihiranaViewModel.class);
 
-		// fill fihirana info
-		TextView f_title = findViewById(R.id.f_title);
-		f_title.setText(f.getName());
-
-		TextView f_description = findViewById(R.id.f_description);
-		f_description.setText(f.getDescription());
-
-		EditText et = findViewById(R.id.txtPage);
-		if(f_page > 0 ) et.append(String.valueOf(f_page));
-		et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_GO) {
-					doGoToPage(v);
-					InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-					in.hideSoftInputFromWindow(
-							v.getApplicationWindowToken(),
-							InputMethodManager.HIDE_IMPLICIT_ONLY);
-
-					return true;
-				}
-				return false;
-			}
-		});
-		InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		in.hideSoftInputFromWindow(et.getApplicationWindowToken(), InputMethodManager.RESULT_UNCHANGED_HIDDEN);
-
-		//
-		recyclerView = findViewById(R.id.recyclerView);
-		recyclerView.setLayoutManager(new LinearLayoutManager(this));
-		recyclerView.setHasFixedSize(true);
-
-		hiraList = new ArrayList<>();
-
-		hiraAdapter = new HiraAdapter(hiraList, recyclerView);
-		recyclerView.setAdapter(hiraAdapter);
-
-		hiraAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
-			@Override
-			public void onLoadMore() {
-				start = start + limit;
-				LoadData runnable = new LoadData();
-				new Thread(runnable).start();
-			}
-		});
-
-		hiraAdapter.setOnClickListener(new ItemClickListener() {
-			@Override
-			public void onClick(View v, int position) {
-				// Starting new intent
-				Hira h = hiraList.get(position);
-				if(h != null)
-				{
-					Intent in = new Intent(getApplicationContext(),
-							HiraItemActivity.class);
-					in.putExtra("org.katolika.fihirana.lib.H_ID", h.getId());
-					in.putExtra("org.katolika.fihirana.lib.F_ID", f_id);
-					startActivity(in);
-				}
-
-			}
+		fihiranaViewModel.getFihirana(f_id).observe(this, fihirana -> {
+			f_title.setText(fihirana.getF_title());
+			f_description.setText(fihirana.getF_description());
 		});
 
 
-		LoadData runnable = new LoadData();
-		new Thread(runnable).start();
 
-	}
-
-	private void init()
-	{
-		hiraList.clear();
-		start = 0;
-	}
-	public void doGoToPage(View v) {
-		EditText txtPage = (EditText) findViewById(R.id.txtPage);
 		try{
 			f_page = Integer.parseInt(txtPage.getText().toString());
 		}
@@ -157,67 +96,103 @@ public class FihiranaItemActivity extends BaseActivity {
 			f_page = 0;
 		}
 
+		txtPage.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+			if(actionId == EditorInfo.IME_ACTION_GO) {
+				doFilter();
+				try {
+					InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					in.hideSoftInputFromWindow(
+							txtPage.getApplicationWindowToken(),
+							InputMethodManager.HIDE_IMPLICIT_ONLY);
 
-		init();
-
-		LoadData runnable = new LoadData();
-		new Thread(runnable).start();
-		//try to hide keyboard
-		try {
-			InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			in.hideSoftInputFromWindow(
-					txtPage.getApplicationWindowToken(),
-				InputMethodManager.HIDE_IMPLICIT_ONLY);
-		
-		}
-		catch (Exception e)
-		{
-			Log.e("KEYBOARD", e.getMessage());
-		}
-	}
-
-	class LoadData implements Runnable {
-
-		@Override
-		public void run() {
-			if (f_page != 0) {
-				hiraList.addAll(db.getHiraListOnPage(f_id, f_page, limit, start));
-			} else {
-				hiraList.addAll(db.getHiraList(f_id, limit, start));
-			}
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putInt("fihirana" + f_id, f_page);
-			editor.apply();
-
-
-			mainHandler.post(new Runnable() {
-				@Override
-				public void run() {
-					hiraAdapter.notifyDataSetChanged();
-					TextView tv = (TextView) findViewById(R.id.error_message);
-					tv.setVisibility(View.VISIBLE);
-					if(hiraList.size() == 0){
-
-						tv.setText("Tsy nisy hira hita");
-					}
-					else
-					{
-						tv.setVisibility(View.GONE);
-					}
-					hiraAdapter.setLoaded();
-					hideKeyboard(FihiranaItemActivity.this);
 				}
+				catch (Exception e)
+				{
+					Log.e("KEYBOARD", e.getMessage());
+				}
+				return true;
+			}
+			return false;
+		});
+
+		txtPage.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable editable) {
+				if (editable.length() == 0) {
+					f_page = 0;
+				} else {
+					f_page = Integer.parseInt(txtPage.getText().toString());
+				}
+				doFilter();
+			}
+		});
+		InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		in.hideSoftInputFromWindow(txtPage.getApplicationWindowToken(), InputMethodManager.RESULT_UNCHANGED_HIDDEN);
+
+		//
+		recyclerView = findViewById(R.id.recyclerView);
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+		recyclerView.setHasFixedSize(true);
+
+		hiraAdapter = new HiraAdapter();
+		recyclerView.setAdapter(hiraAdapter);
+
+		hiraAdapter.setOnClickListener(hira -> {
+			// Starting new intent
+			if(hira != null)
+			{
+				Intent in1 = new Intent(getApplicationContext(),
+						HiraItemActivity.class);
+				in1.putExtra("org.katolika.fihirana.lib.H_ID", hira.getId());
+				in1.putExtra("org.katolika.fihirana.lib.F_ID", f_id);
+				startActivity(in1);
+			}
+
+		});
+
+
+		doFilter();
+
+	}
+
+	private void doFilter() {
+
+
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putInt("fihirana" + f_id, f_page);
+		editor.apply();
+		Log.d(TAG, "refreshRecycleView: page " + f_page);
+
+		fihiranaViewModel.getHiraListByFihiranaId(f_id, start, limit, f_page).observe(this, hiraList -> {
+
+			if(null == hiraList || hiraList.size() == 0){
+				txtMessage.setVisibility(View.VISIBLE);
+				txtMessage.setText(R.string.str_hira_not_found);
+			}
+			else
+			{
+				txtMessage.setVisibility(View.GONE);
+			}
+
+			hiraAdapter.submitList(hiraList, () -> {
+				recyclerView.scrollToPosition(0);
 			});
-		}
+
+
+		});
 	}
 
 
-	public void onDestroy() {
-		super.onDestroy();
-		if (db != null) {
-			db.close();
-		}
-	}
 
 	public static void hideKeyboard(Activity activity) {
 		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);

@@ -13,12 +13,22 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.katolika.fihirana.lib.adapters.SokajyAdapter;
+import org.katolika.fihirana.lib.database.FihiranaViewModel;
+import org.katolika.fihirana.lib.models.Sokajy;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CategoryListActivity extends BaseActivity {
 
-	private ProgressDialog pDialog;
+	private SokajyAdapter sokajyAdapter;
+	private FihiranaViewModel fihiranaViewModel;
+
 	ArrayList<HashMap<String, String>> fList;
 	String[] sqliteIds;
 	DatabaseHelper db;
@@ -30,111 +40,26 @@ public class CategoryListActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_category_list);
 
-		fList = new ArrayList<HashMap<String, String>>();
+		sokajyAdapter = new SokajyAdapter();
 
-		new loadCategoryList().execute();
+		RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
-		lv = (ListView) findViewById(R.id.list);
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+		recyclerView.setHasFixedSize(true);
+		recyclerView.setAdapter(sokajyAdapter);
 
-		lv.setOnItemClickListener(new OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// getting values from selected ListItem
-
-				String s_id = ((TextView) view.findViewById(R.id.s_id))
-						.getText().toString();
-				// Starting new intent
-
-                Intent in = new Intent(getApplicationContext(),
-						CategoryItemActivity.class);
-//				// passing sqlite row id
-				in.putExtra("org.katolika.fihirana.lib.S_ID", s_id);
-				startActivity(in);
-			}
+		fihiranaViewModel = new ViewModelProvider(this).get(FihiranaViewModel.class);
+		fihiranaViewModel.getSokajyListWithCount().observe(this, sokajyList -> {
+			sokajyAdapter.submitList(sokajyList);
 		});
+
+		sokajyAdapter.setOnRowClickListener(sokajy -> {
+			Intent intent = new Intent(getApplicationContext(),
+					CategoryItemActivity.class);
+			intent.putExtra("org.katolika.fihirana.lib.S_ID", sokajy.getId());
+			startActivity(intent);
+		});
+
 	}
 
-
-	/**
-	 * Background Async Task to get RSS data from URL
-	 * */
-	class loadCategoryList extends AsyncTask<String, String, String> {
-
-		/**
-		 * Before starting background thread Show Progress Dialog
-		 * */
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			pDialog = new ProgressDialog(CategoryListActivity.this);
-			pDialog.setMessage("Mitady ny sokajy ...");
-			pDialog.setIndeterminate(false);
-			pDialog.setCancelable(false);
-			pDialog.show();
-		}
-
-		/**
-		 * getting all stored website from SQLite
-		 * */
-
-		@Override
-		protected String doInBackground(String... args) {
-			// updating UI from Background Thread
-			runOnUiThread(new Runnable() {
-				public void run() {
-					db = new DatabaseHelper(CategoryListActivity.this);
-
-					Cursor c = db.getCategoryListNotEmpty();
-
-					sqliteIds = new String[c.getCount()];
-
-					int i = 0;
-					if (c.moveToFirst()) {
-
-						do {
-							HashMap<String, String> map = new HashMap<String, String>();
-							map.put("s_id", c.getString(0));
-							map.put("s_title", c.getString(1));
-							map.put("s_description", c.getString(2));
-							map.put("cnt", "Hira: " + c.getString(3));
-
-							fList.add(map);
-							sqliteIds[i] = c.getString(0);
-							i++;
-						} while (c.moveToNext());
-					}
-					c.close();
-					ListAdapter adapter = new SimpleAdapter(
-							CategoryListActivity.this, fList,
-							R.layout.row_category, new String[] { "s_id",
-									"s_title", "s_description", "cnt" },
-							new int[] { R.id.s_id, R.id.s_title,
-									R.id.s_description, R.id.cnt });
-					// updating listview
-
-					lv.setAdapter(adapter);
-					// registerForContextMenu(lv);
-
-				}
-			});
-			return null;
-		}
-
-		/**
-		 * After completing background task Dismiss the progress dialog
-		 * **/
-		protected void onPostExecute(String args) {
-			// dismiss the dialog after getting all products
-			pDialog.dismiss();
-		}
-	}
-
-	public void onDestroy() {
-		super.onDestroy();
-		if (db != null) {
-			db.close();
-		}
-	}
 }

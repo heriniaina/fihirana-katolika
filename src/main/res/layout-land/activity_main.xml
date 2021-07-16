@@ -1,0 +1,392 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#9AD0F6"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/logoland"
+        app:layout_constraintBottom_toTopOf="@id/flow3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flow3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:constraint_referenced_ids="home_fihirana_row,home_tadiavo_row"
+        app:layout_constraintBottom_toTopOf="@+id/flow2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flow2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:constraint_referenced_ids="home_salamo_row,home_sokajy_row"
+        app:layout_constraintBottom_toTopOf="@+id/flow4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flow3" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flow4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:constraint_referenced_ids="home_favorite_row,home_info_row"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flow2" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_fihirana_row"
+        style="@style/home_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:onClick="displayFihiranaActivity"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="100dp">
+
+        <!-- ListRow Left sied Thumbnail image -->
+
+        <TextView
+            android:id="@+id/home_fihirana_title"
+            style="@style/home_list_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_fihirana_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/home_fihirana_list_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="22dp"
+            tools:layout_conversion_absoluteWidth="649dp" />
+
+        <ImageView
+            android:id="@+id/home_fihirana_list_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/home_fihirana_title"
+            android:src="@drawable/home_fihirana"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/home_fihirana_title"
+            tools:layout_conversion_absoluteHeight="50dp"
+            tools:layout_conversion_absoluteWidth="50dp" />
+
+
+        <!-- Title Of Song -->
+
+
+        <!-- Artist Name -->
+
+        <TextView
+            android:id="@+id/home_fihirana_desc"
+            style="@style/home_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_fihirana_desc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/home_fihirana_title"
+            app:layout_constraintTop_toBottomOf="@id/home_fihirana_title"
+            tools:layout_conversion_absoluteHeight="20dp"
+            tools:layout_conversion_absoluteWidth="649dp" />
+
+        <!-- Rightend Duration -->
+
+
+        <!-- tsipika -->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_tadiavo_row"
+        style="@style/home_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:onClick="displayTadiavoActivity"
+        android:padding="5dip"
+        tools:layout_editor_absoluteX="366dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <ImageView
+            android:id="@+id/home_tadiavo_list_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/home_tadiavo_title"
+            android:src="@drawable/home_tadiavo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="50dp"
+            tools:layout_conversion_absoluteWidth="50dp" />
+
+
+        <TextView
+            android:id="@+id/home_tadiavo_title"
+            style="@style/home_list_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_tadiavo_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/home_tadiavo_list_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="22dp"
+            tools:layout_conversion_absoluteWidth="648dp" />
+
+        <TextView
+            android:id="@+id/home_tadiavo_desc"
+            style="@style/home_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_tadiavo_desc"
+            app:layout_constraintEnd_toEndOf="@id/home_tadiavo_title"
+            app:layout_constraintStart_toStartOf="@id/home_tadiavo_title"
+            app:layout_constraintTop_toBottomOf="@id/home_tadiavo_title"
+            tools:layout_conversion_absoluteHeight="20dp"
+            tools:layout_conversion_absoluteWidth="648dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_salamo_row"
+        style="@style/home_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:onClick="displaySalamoActivity"
+        android:padding="5dip"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="145dp">
+
+        <!-- ListRow Left sied Thumbnail image -->
+
+        <ImageView
+            android:id="@+id/home_salamo_list_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/salamo_activity_title"
+            android:src="@drawable/home_salamo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="50dp"
+            tools:layout_conversion_absoluteWidth="50dp" />
+
+        <TextView
+            android:id="@+id/home_salamo_title"
+            style="@style/home_list_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_salamo_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/home_salamo_list_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="22dp"
+            tools:layout_conversion_absoluteWidth="648dp" />
+
+        <!-- Artist Name -->
+
+        <TextView
+            android:id="@+id/home_salamo_desc"
+            style="@style/home_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_salamo_desc"
+            app:layout_constraintEnd_toEndOf="@id/home_salamo_title"
+            app:layout_constraintStart_toStartOf="@id/home_salamo_title"
+            app:layout_constraintTop_toBottomOf="@id/home_salamo_title"
+            tools:layout_conversion_absoluteHeight="20dp"
+            tools:layout_conversion_absoluteWidth="648dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_sokajy_row"
+        style="@style/home_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:onClick="displaySokajyActivity"
+        android:padding="5dip"
+
+        tools:layout_editor_absoluteX="366dp"
+        tools:layout_editor_absoluteY="145dp">
+
+        <!-- ListRow Left sied Thumbnail image -->
+
+
+        <ImageView
+            android:id="@+id/home_sokajy_list_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/home_sokajy_title"
+            android:src="@drawable/home_sokajy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="50dp"
+            tools:layout_conversion_absoluteWidth="50dp" />
+
+        <!-- Title Of Song -->
+
+        <TextView
+            android:id="@+id/home_sokajy_title"
+            style="@style/home_list_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_sokajy_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/home_sokajy_list_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="22dp"
+            tools:layout_conversion_absoluteWidth="648dp" />
+
+        <!-- Artist Name -->
+
+        <TextView
+            android:id="@+id/home_sokajy_desc"
+            style="@style/home_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_sokajy_desc"
+            app:layout_constraintEnd_toEndOf="@id/home_sokajy_title"
+            app:layout_constraintStart_toStartOf="@id/home_sokajy_title"
+            app:layout_constraintTop_toBottomOf="@id/home_sokajy_title"
+            tools:layout_conversion_absoluteHeight="20dp"
+            tools:layout_conversion_absoluteWidth="648dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_favorite_row"
+        style="@style/home_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:onClick="displayFavoriteActivity"
+        android:padding="5dip"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="313dp">
+
+        <!-- ListRow Left sied Thumbnail image -->
+
+
+        <ImageView
+            android:id="@+id/home_favorite_list_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/title_favorite_list"
+            android:src="@drawable/home_favorite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="50dp"
+            tools:layout_conversion_absoluteWidth="50dp" />
+
+        <TextView
+            android:id="@+id/home_favorite_title"
+            style="@style/home_list_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_favorite_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/home_favorite_list_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="22dp"
+            tools:layout_conversion_absoluteWidth="648dp" />
+
+        <!-- Artist Name -->
+
+        <TextView
+            android:id="@+id/home_favorite_desc"
+            style="@style/home_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_favorite_desc"
+            app:layout_constraintEnd_toEndOf="@id/home_favorite_title"
+            app:layout_constraintStart_toStartOf="@id/home_favorite_title"
+            app:layout_constraintTop_toBottomOf="@id/home_favorite_title"
+            tools:layout_conversion_absoluteHeight="20dp"
+            tools:layout_conversion_absoluteWidth="648dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_info_row"
+        style="@style/home_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="5dip"
+        tools:layout_editor_absoluteX="366dp"
+        tools:layout_editor_absoluteY="282dp">
+
+
+        <ImageView
+            android:id="@+id/home_info_list_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/title_activity_about"
+            android:src="@drawable/home_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="50dp"
+            tools:layout_conversion_absoluteWidth="50dp" />
+
+        <TextView
+            android:id="@+id/home_info_list_title"
+            style="@style/home_list_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_info_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/home_info_list_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="22dp"
+            tools:layout_conversion_absoluteWidth="648dp" />
+
+        <TextView
+            android:id="@+id/txtInfoDesc"
+            style="@style/home_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/home_info_desc"
+            app:layout_constraintEnd_toEndOf="@id/home_info_list_title"
+            app:layout_constraintStart_toStartOf="@id/home_info_list_title"
+            app:layout_constraintTop_toBottomOf="@id/home_info_list_title"
+            tools:layout_conversion_absoluteHeight="20dp"
+            tools:layout_conversion_absoluteWidth="648dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

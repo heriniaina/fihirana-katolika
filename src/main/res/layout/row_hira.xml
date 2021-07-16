@@ -2,48 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/home_selector"
-    android:orientation="vertical"
-    android:layout_margin="5dp">
-     
+    style="@style/row"
+    android:orientation="vertical">
+
     <!-- SQLite row id / hidden by default -->
-    <TextView android:id="@+id/h_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
-  
+
     <!-- web site title -->
     <TextView
         android:id="@+id/h_title"
+        style="@style/row_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        style="@style/row_title" />
+        android:text="@string/str_example_hira_titre" />
 
     <TextView
         android:id="@+id/f_title"
         style="@style/row_special"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/h_title" />
+        android:layout_below="@id/h_title"
+        android:text="@string/str_example_fihirana_title" />
 
     <TextView
         android:id="@+id/f_page"
         style="@style/row_special"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:layout_below="@id/h_title"
+        android:layout_marginLeft="8dp"
         android:layout_toEndOf="@+id/f_title"
         android:layout_toRightOf="@+id/f_title"
 
-        />
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_below="@id/f_page"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/fill" />
+        android:text="@string/str_example_hira_page" />
 
-  
+
 </RelativeLayout>

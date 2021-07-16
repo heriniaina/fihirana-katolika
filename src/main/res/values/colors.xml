@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#FF03A9F4</color>
+    <color name="secondary">#8503A9F4</color>
+    <color name="background">#EBF6FD</color>
+    <color name="rowTitle">#FF000000</color>
+    <color name="rowDescription">#AA000000</color>
+    <color name="rowHighlight">#FF1744</color>
+    <color name="rowBorder">@color/primary</color>
+    <color name="rowBackground">#FFFFFF</color>
+    <color name="rowBackgroundPressed">#ACACAC</color>
+    <color name="foreground">#FFFFFFFF</color>
+</resources>

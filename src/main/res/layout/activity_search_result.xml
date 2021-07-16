@@ -1,37 +1,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/background"
 
-    tools:context=".SearchResultActivity" >
+	android:orientation="vertical"
+	tools:context=".SearchResultActivity">
 
-	<org.katolika.fihirana.lib.HeaderLayout android:layout_width="wrap_content" android:layout_height="wrap_content" />
-    <TextView
-        android:text="@string/search_result_activity_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/page_title"/>
- 
-    <!-- Artist Name -->
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        style="@style/page_description" />
-    <TextView
-	    	android:id="@+id/error_message"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:textColor="#ff0000"
-		    android:padding="8dip"
-		    android:visibility="gone" 
-		    />
+	<org.katolika.fihirana.lib.HeaderLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" />
+
+	<TextView
+		style="@style/page_title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/search_result_activity_title" />
+
+	<!-- Artist Name -->
+	<TextView
+		android:id="@+id/description"
+		style="@style/page_description"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+
+	<TextView
+		android:id="@+id/error_message"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="8dip"
+		android:textColor="#ff0000"
+		android:visibility="gone" />
 
 	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/recyclerView"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_margin="5dp"
-		android:id="@+id/recyclerView"/>
+		tools:listitem="@layout/row_hira" />
 
 </LinearLayout>
