@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.json.JSONArray;
 import org.katolika.fihirana.lib.entities.Fanovana;
 import org.katolika.fihirana.lib.entities.Hira;
 import org.katolika.fihirana.lib.models.Sokajy;
@@ -95,5 +96,33 @@ public class FihiranaViewModel extends AndroidViewModel {
 
     public void deleteHiraById(int id) {
         fihiranaRepository.deleteHiraById(id);
+    }
+
+    public void saveSokajyJson(int h_id, JSONArray sokajyArray) {
+        fihiranaRepository.saveSokajyJson(h_id, sokajyArray);
+    }
+
+    public void saveFihiranaJson(int h_id, JSONArray fihiranaArray) {
+        fihiranaRepository.saveFihiranaJson(h_id, fihiranaArray);
+    }
+
+    public void saveSalamoJson(int h_id, int salamo) {
+        fihiranaRepository.saveSalamoJson(h_id, salamo);
+    }
+
+    public void insertFihirana(org.katolika.fihirana.lib.entities.Fihirana fihirana) {
+        fihiranaRepository.insertFihirana(fihirana);
+    }
+
+    public void updateFihirana(org.katolika.fihirana.lib.entities.Fihirana fihirana) {
+        fihiranaRepository.updateFihirana(fihirana);
+    }
+
+    public void insertChange(Fanovana fanovana) {
+        fihiranaRepository.insertFanovana(fanovana);
+    }
+
+    public void insertChangeList(List<Fanovana> fanovanaList) {
+        fihiranaRepository.insertChangeList(fanovanaList);
     }
 }

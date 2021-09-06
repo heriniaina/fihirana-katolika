@@ -14,7 +14,11 @@ public class Salamo {
 
     int faha;
 
-    public Salamo() {
+
+    public Salamo(int id, int h_id, int faha) {
+        this.id = h_id;
+        this.h_id = h_id;
+        this.faha = faha;
     }
 
     public int getId() {

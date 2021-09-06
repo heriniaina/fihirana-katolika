@@ -1,5 +1,9 @@
 package org.katolika.fihirana.lib.entities;
 
+import android.view.ViewDebug;
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -20,7 +24,7 @@ public class Favorite {
     public Favorite() {
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -28,7 +32,7 @@ public class Favorite {
         this.id = id;
     }
 
-    public Integer getH_id() {
+    public int getH_id() {
         return h_id;
     }
 

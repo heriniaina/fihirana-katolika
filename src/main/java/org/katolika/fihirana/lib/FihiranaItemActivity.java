@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,6 +47,7 @@ public class FihiranaItemActivity extends BaseActivity {
 
 	private static final String TAG = "FihiranaItemActivityTAG";
 
+	static final int INITIAL_LIMIT = 30;
 	private FihiranaViewModel fihiranaViewModel;
 
 	int f_id;
@@ -58,6 +60,7 @@ public class FihiranaItemActivity extends BaseActivity {
 	HiraAdapter hiraAdapter;
 	EditText txtPage;
 	TextView txtMessage;
+	boolean editing = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -132,6 +135,7 @@ public class FihiranaItemActivity extends BaseActivity {
 					f_page = 0;
 				} else {
 					f_page = Integer.parseInt(txtPage.getText().toString());
+					editing = true;
 				}
 				doFilter();
 			}
@@ -146,6 +150,27 @@ public class FihiranaItemActivity extends BaseActivity {
 
 		hiraAdapter = new HiraAdapter();
 		recyclerView.setAdapter(hiraAdapter);
+
+
+
+		if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+			final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+			recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+				@Override
+				public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+					super.onScrolled(recyclerView, dx, dy);
+					if((linearLayoutManager.findLastVisibleItemPosition() == linearLayoutManager.getItemCount() -1)
+							&& (linearLayoutManager.getItemCount() > linearLayoutManager.findLastCompletelyVisibleItemPosition())
+					) {
+						limit += INITIAL_LIMIT;
+
+						Log.d(TAG, "onScrolled: " + limit);
+						doFilter();
+					}
+				}
+
+			});
+		}
 
 		hiraAdapter.setOnClickListener(hira -> {
 			// Starting new intent
@@ -185,7 +210,11 @@ public class FihiranaItemActivity extends BaseActivity {
 			}
 
 			hiraAdapter.submitList(hiraList, () -> {
-				recyclerView.scrollToPosition(0);
+				if(editing) {
+					// just a trick to scroll to top when inserting page number
+					recyclerView.scrollToPosition(0);
+					editing = false;
+				}
 			});
 
 

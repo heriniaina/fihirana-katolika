@@ -10,12 +10,15 @@ public class HiraSokajy {
     @PrimaryKey(autoGenerate = true)
     int id;
 
-    Integer s_id;
+    int s_id;
 
-    Integer h_id;
+    int h_id;
 
-    public HiraSokajy() {
 
+    public HiraSokajy(int id, int h_id, int s_id) {
+        this.id = id;
+        this.s_id = s_id;
+        this.h_id = h_id;
     }
 
     public int getId() {
@@ -26,19 +29,19 @@ public class HiraSokajy {
         this.id = id;
     }
 
-    public Integer getS_id() {
+    public int getS_id() {
         return s_id;
     }
 
-    public void setS_id(Integer s_id) {
+    public void setS_id(int s_id) {
         this.s_id = s_id;
     }
 
-    public Integer getH_id() {
+    public int getH_id() {
         return h_id;
     }
 
-    public void setH_id(Integer h_id) {
+    public void setH_id(int h_id) {
         this.h_id = h_id;
     }
 }

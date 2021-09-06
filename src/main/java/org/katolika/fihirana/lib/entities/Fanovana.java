@@ -1,6 +1,7 @@
 package org.katolika.fihirana.lib.entities;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -8,27 +9,30 @@ import androidx.room.PrimaryKey;
 public class Fanovana {
 
 
-    @PrimaryKey
-    private int _id;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
     private int c_date;
 
     private int c_id;
 
+    @NonNull
+    @ColumnInfo(defaultValue = "h")
     private String c_table;
 
+    @NonNull
+    @ColumnInfo(defaultValue = "c")
     private String c_type;
 
-    public Fanovana() {
+ 
+    public Fanovana(int id, int c_date, int c_id, @NonNull String c_table, @NonNull String c_type) {
+        this.id = id;
+        this.c_date = c_date;
+        this.c_id = c_id;
+        this.c_table = c_table;
+        this.c_type = c_type;
     }
 
-    public int get_id() {
-        return _id;
-    }
-
-    public void set_id(int _id) {
-        this._id = _id;
-    }
 
     public int getC_date() {
         return c_date;
@@ -60,5 +64,13 @@ public class Fanovana {
 
     public void setC_type(String c_type) {
         this.c_type = c_type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

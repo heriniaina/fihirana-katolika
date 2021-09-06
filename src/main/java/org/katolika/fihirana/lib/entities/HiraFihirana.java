@@ -12,13 +12,17 @@ public class HiraFihirana {
     @PrimaryKey(autoGenerate = true)
     int id;
 
-    Integer h_id;
+    int h_id;
 
-    Integer f_id;
+    int f_id;
 
-    Integer f_page;
+    int f_page;
 
-    public HiraFihirana() {
+    public HiraFihirana(int id, int h_id, int f_id, int f_page) {
+        this.id = id;
+        this.h_id = h_id;
+        this.f_id = f_id;
+        this.f_page = f_page;
     }
 
     public int getId() {
@@ -29,27 +33,27 @@ public class HiraFihirana {
         this.id = id;
     }
 
-    public Integer getH_id() {
+    public int getH_id() {
         return h_id;
     }
 
-    public void setH_id(Integer h_id) {
+    public void setH_id(int h_id) {
         this.h_id = h_id;
     }
 
-    public Integer getF_id() {
+    public int getF_id() {
         return f_id;
     }
 
-    public void setF_id(Integer f_id) {
+    public void setF_id(int f_id) {
         this.f_id = f_id;
     }
 
-    public Integer getF_page() {
+    public int getF_page() {
         return f_page;
     }
 
-    public void setF_page(Integer f_page) {
+    public void setF_page(int f_page) {
         this.f_page = f_page;
     }
 }

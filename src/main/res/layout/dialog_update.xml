@@ -8,14 +8,22 @@
 
 
 	<TextView
-		android:id="@+id/textView"
+		android:id="@+id/txtMessage"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:layout_marginBottom="16dp"
 		android:padding="8dip"
 		android:text="@string/about_update_message"
+		app:layout_constraintBottom_toTopOf="@+id/btn_cancel"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_bias="0.0" />
 
 	<!-- Input Text -->
 
@@ -26,28 +34,34 @@
 	<!-- Add Button -->
 	<Button
 		android:id="@+id/btn_update"
-		style="@style/ButtonText"
+		style="@style/btnBlue"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginEnd="3dp"
-		android:layout_marginRight="3dp"
-		android:background="@drawable/btn_blue"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:layout_marginBottom="8dp"
 		android:text="@string/about_tohizo"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toEndOf="@+id/btn_cancel"
-		app:layout_constraintHorizontal_bias="50"/>
+		app:layout_constraintHorizontal_bias="50"
+		app:layout_constraintStart_toEndOf="@+id/btn_cancel" />
 
 	<Button
 		android:id="@+id/btn_cancel"
-		style="@style/ButtonText"
+		style="@style/btnBlue"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:background="@drawable/btn_blue"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:layout_marginBottom="8dp"
 		android:text="@string/about_aoka_ihany"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toStartOf="@+id/btn_update"
-		app:layout_constraintStart_toStartOf="parent"/>
+		app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

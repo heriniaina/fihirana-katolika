@@ -19,17 +19,27 @@
 
     <TextView
         android:id="@+id/txtinfo"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerLayout2" />
+
+    <Button
+        android:id="@+id/button"
+        style="@style/btnBlue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/update_update"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtinfo" />
 
     <WebView
         android:id="@+id/webView"
@@ -45,17 +55,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtinfo" />
+        app:layout_constraintTop_toBottomOf="@+id/button">
 
-    <ImageView
-        android:id="@+id/imgSync"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/frame_background"
-        app:layout_constraintBottom_toBottomOf="@+id/txtinfo"
-        app:layout_constraintEnd_toEndOf="@+id/txtinfo"
-        app:layout_constraintTop_toBottomOf="@+id/headerLayout2"
-        android:src="@drawable/ic_baseline_sync_24" />
+    </WebView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

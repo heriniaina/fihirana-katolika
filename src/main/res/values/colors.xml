@@ -8,6 +8,6 @@
     <color name="rowHighlight">#FF1744</color>
     <color name="rowBorder">@color/primary</color>
     <color name="rowBackground">#FFFFFF</color>
-    <color name="rowBackgroundPressed">#ACACAC</color>
+    <color name="rowBackgroundPressed">#EEEEEE</color>
     <color name="foreground">#FFFFFFFF</color>
 </resources>

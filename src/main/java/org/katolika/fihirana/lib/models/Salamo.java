@@ -6,6 +6,10 @@ public class Salamo extends org.katolika.fihirana.lib.entities.Salamo {
     String f_title;
     int f_page;
 
+    public Salamo(int id, int h_id, int faha) {
+        super(id, h_id, faha);
+    }
+
     public String getH_title() {
         return h_title;
     }

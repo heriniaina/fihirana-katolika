@@ -38,9 +38,9 @@
 		android:layout_toStartOf="@id/search"
 		android:layout_toLeftOf="@id/search"
 		android:background="@drawable/btn_default"
-		android:contentDescription="@drawable/btn_share"
+		android:contentDescription="@string/btn_share"
 		android:padding="5dp"
-		android:src="@drawable/btn_share"
+		android:src="@drawable/ic_action_social_share"
 		android:visibility="gone" />
 
     <ImageButton

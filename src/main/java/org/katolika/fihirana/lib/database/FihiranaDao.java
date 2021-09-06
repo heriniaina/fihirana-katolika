@@ -9,6 +9,8 @@ import androidx.room.Update;
 
 import org.katolika.fihirana.lib.entities.Fanovana;
 import org.katolika.fihirana.lib.entities.Hira;
+import org.katolika.fihirana.lib.entities.HiraFihirana;
+import org.katolika.fihirana.lib.entities.HiraSokajy;
 import org.katolika.fihirana.lib.models.Sokajy;
 import org.katolika.fihirana.lib.models.Fihirana;
 import org.katolika.fihirana.lib.models.HiraInfo;
@@ -23,7 +25,7 @@ public interface FihiranaDao {
     @Query("SELECT  f.* , count(hf.id) cnt FROM android_fihirana f LEFT JOIN android_hira_fihirana hf ON hf.f_id=f.id GROUP BY f.id HAVING cnt > 0 ORDER BY f.f_title")
     LiveData<List<Fihirana>> getFihiranaList();
 
-    @Query("SELECT h.id, h.h_title, h.h_text, f.f_title, f.f_description, hf.f_page  FROM android_hira h  LEFT JOIN android_hira_fihirana hf ON h.id=hf.h_id  LEFT JOIN android_fihirana f ON f.id=hf.f_id  WHERE f.id=:f_id ORDER BY h_title LIMIT :limit OFFSET :start")
+    @Query("SELECT h.id, h.h_title, h.h_text, f.f_title, f.f_description, hf.f_page  FROM android_hira h  LEFT JOIN android_hira_fihirana hf ON h.id=hf.h_id  LEFT JOIN android_fihirana f ON f.id=hf.f_id  WHERE f.id=:f_id ORDER BY hf.f_page, h_title LIMIT :limit OFFSET :start")
     LiveData<List<HiraInfo>> getHiraByFihiranaId(int f_id, int start, int limit);
 
     @Query("SELECT h.id, h.h_title, h.h_text, f.f_title, f.f_description, hf.f_page  FROM android_hira h  LEFT JOIN android_hira_fihirana hf ON h.id=hf.h_id  LEFT JOIN android_fihirana f ON f.id=hf.f_id  WHERE f.id=:f_id AND hf.f_page LIKE :page  ORDER BY h_title LIMIT :limit OFFSET :start")
@@ -81,10 +83,10 @@ public interface FihiranaDao {
     @Query("SELECT COUNT(id) FROM android_hira")
     LiveData<Integer> getHiraCount();
 
-    @Query("UPDATE android_fihirana_changes SET _id = :id ")
+    @Query("UPDATE android_fihirana_changes SET id = :id ")
     void updateChange(int id);
 
-    @Query("SELECT * FROM android_fihirana_changes ORDER BY _id DESC LIMIT 1")
+    @Query("SELECT * FROM android_fihirana_changes ORDER BY id DESC LIMIT 1")
     LiveData<Fanovana> getLastChange();
 
     @Query("DELETE FROM android_hira WHERE id = :id")
@@ -98,4 +100,28 @@ public interface FihiranaDao {
 
     @Query("DELETE FROM android_salamo WHERE h_id=:h_id")
     void deleteHiraFromSalamo(int h_id);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    //void insertListHiraSokajy(HiraSokajy... hiraSokajyList);
+    void insertListHiraSokajy(List<HiraSokajy> hiraSokajyList);
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertListHiraFihirana(List<HiraFihirana> hiraFihiranaList);
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertHiraSalamo(org.katolika.fihirana.lib.entities.Salamo salamo);
+
+    @Insert
+    void insertFihirana(org.katolika.fihirana.lib.entities.Fihirana fihirana);
+
+    @Update
+    void updateFihirana(org.katolika.fihirana.lib.entities.Fihirana fihirana);
+
+    @Insert
+    void insertFanovana(Fanovana fanovana);
+
+    @Insert //(onConflict = OnConflictStrategy.REPLACE)
+    void insertFanovana(List<Fanovana> fanovanaList);
 }

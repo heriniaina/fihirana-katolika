@@ -1,0 +1,1 @@
+null conflict exception happens because all autoincrement ar missing in the database

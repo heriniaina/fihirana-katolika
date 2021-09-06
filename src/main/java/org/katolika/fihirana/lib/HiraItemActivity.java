@@ -46,6 +46,7 @@ public class HiraItemActivity extends BaseActivity  {
 		btn_favorite_off = findViewById(R.id.favorite_off);
 		btn_favorite_on = findViewById(R.id.favorite_on);
 		btn_share = findViewById(R.id.share);
+		btn_share.setVisibility(View.VISIBLE);
 
 
 		fihiranaViewModel = new ViewModelProvider(this).get(FihiranaViewModel.class);
@@ -79,7 +80,7 @@ public class HiraItemActivity extends BaseActivity  {
 					is.close();
 					h_text = new String(buffer);
 					hira.setH_text(h_text);
-					fihiranaViewModel.updateHira(hira);
+					//fihiranaViewModel.updateHira(hira);
 				} catch (Exception e) {
 					Log.e(TAG, "onCreate: text file not accessible " + e.getMessage());
 				}

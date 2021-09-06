@@ -69,5 +69,10 @@
     <string name="about_tohizo">Tohizo</string>
     <string name="about_aoka_ihany">Aoka ihany</string>
     <string name="dialog_update">Fanavaozana</string>
+    <string name="upgrade_not_required">Efa azo daholo ny fanovana.</string>
+    <string name="upgrade_number_of_total">Tafiditra ny fanovana %d amin\'ny %d</string>
+    <string name="update_close">Hidio</string>
+    <string name="update_update">Haka fanovana</string>
+    <string name="btn_share">Zarao</string>
 
 </resources>
