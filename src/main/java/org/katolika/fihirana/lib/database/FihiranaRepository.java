@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,11 +50,36 @@ public class FihiranaRepository {
     }
 
     public LiveData<List<HiraInfo>> getHiraFromSearch(int limit, String search_from_title, int search_from_category, String search_from_content) {
-        if (search_from_category == 0) {
-            return fihiranaDao.getHiraFromSearch(limit, "%" + search_from_title.trim() + "%", "%" + search_from_content.trim() + "%");
-        } else {
-            return fihiranaDao.getHiraFromSearch(limit, "%" + search_from_title.trim() + "%", search_from_category, "%" + search_from_content.trim() + "%");
+        String queryString = "SELECT h.id, h.h_title, h.h_text, f.f_title, MAX(f.f_description) f_description, hf.f_page  FROM android_hira h  LEFT JOIN android_hira_fihirana hf ON h.id=hf.h_id  LEFT JOIN android_fihirana f ON f.id=hf.f_id";
+        List<Object> args = new ArrayList<>();
+        queryString += " WHERE h.id NOTNULL";
+        if(search_from_category > 0) {
+            queryString += " AND s.id = ?";
+            args.add(search_from_category);
         }
+        if(!search_from_title.isEmpty()) {
+            String[] arr_search_title = search_from_title.split(" ");
+            for (int i = 0; i < arr_search_title.length; i++) {
+                if(arr_search_title[i].length() > 1) {
+                    queryString += " AND h.h_title LIKE ? ";
+                    args.add("%"+arr_search_title[i]+"%");
+                }
+            }
+        }
+        if(!search_from_content.isEmpty()) {
+            String[] arr_search_content = search_from_content.split(" ");
+            for (int i = 0; i < arr_search_content.length; i++) {
+                if(arr_search_content[i].length() > 1) {
+                    queryString += " AND h.h_text LIKE ? ";
+                    args.add("%"+arr_search_content[i]+"%");
+                }
+            }
+        }
+
+        queryString += " ORDER BY h_title LIMIT "+limit;
+        SimpleSQLiteQuery simpleSQLiteQuery = new SimpleSQLiteQuery(queryString, args.toArray());
+
+        return fihiranaDao.executeQuery(simpleSQLiteQuery);
     }
 
     public LiveData<HiraInfo> getHiraItem(int h_id) {

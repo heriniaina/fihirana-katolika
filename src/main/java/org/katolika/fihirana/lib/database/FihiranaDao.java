@@ -5,7 +5,9 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RawQuery;
 import androidx.room.Update;
+import androidx.sqlite.db.SupportSQLiteQuery;
 
 import org.katolika.fihirana.lib.entities.Fanovana;
 import org.katolika.fihirana.lib.entities.Hira;
@@ -124,4 +126,7 @@ public interface FihiranaDao {
 
     @Insert //(onConflict = OnConflictStrategy.REPLACE)
     void insertFanovana(List<Fanovana> fanovanaList);
+
+    @RawQuery(observedEntities = Hira.class)
+    LiveData<List<HiraInfo>> executeQuery(SupportSQLiteQuery query);
 }
