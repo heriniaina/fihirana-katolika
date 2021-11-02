@@ -50,7 +50,7 @@ public class FihiranaRepository {
     }
 
     public LiveData<List<HiraInfo>> getHiraFromSearch(int limit, String search_from_title, int search_from_category, String search_from_content) {
-        String queryString = "SELECT h.id, h.h_title, h.h_text, f.f_title, MAX(f.f_description) f_description, hf.f_page  FROM android_hira h  LEFT JOIN android_hira_fihirana hf ON h.id=hf.h_id  LEFT JOIN android_fihirana f ON f.id=hf.f_id";
+        String queryString = "SELECT h.id, h.h_title, h.h_text, f.f_title, MAX(f.f_description) f_description, hf.f_page  FROM android_hira h  LEFT JOIN android_hira_fihirana hf ON h.id=hf.h_id  LEFT JOIN android_fihirana f ON f.id=hf.f_id LEFT JOIN android_hira_sokajy hs ON hs.h_id=h.id LEFT JOIN android_sokajy s ON hs.s_id = s.id";
         List<Object> args = new ArrayList<>();
         queryString += " WHERE h.id NOTNULL";
         if(search_from_category > 0) {
@@ -76,7 +76,8 @@ public class FihiranaRepository {
             }
         }
 
-        queryString += " ORDER BY h_title LIMIT "+limit;
+        queryString += " GROUP BY h.id ORDER BY h_title LIMIT "+limit;
+        Log.d(TAG, "getHiraFromSearch: " + queryString);
         SimpleSQLiteQuery simpleSQLiteQuery = new SimpleSQLiteQuery(queryString, args.toArray());
 
         return fihiranaDao.executeQuery(simpleSQLiteQuery);

@@ -16,8 +16,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 30
-        versionCode 26
-        versionName "6.2"
+        versionCode 27
+        versionName "6.3"
     }
     productFlavors {
         tsotra {
