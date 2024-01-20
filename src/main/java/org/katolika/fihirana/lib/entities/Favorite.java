@@ -1,9 +1,5 @@
 package org.katolika.fihirana.lib.entities;
 
-import android.view.ViewDebug;
-
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -11,9 +7,9 @@ import androidx.room.PrimaryKey;
 public class Favorite {
 
     @PrimaryKey(autoGenerate = true)
-    Integer id;
+    int id;
 
-    Integer h_id;
+    int h_id;
 
     String h_title;
 

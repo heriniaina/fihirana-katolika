@@ -7,18 +7,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.katolika.fihirana.lib.DatabaseHelper;
 import org.katolika.fihirana.lib.R;
-import org.katolika.fihirana.lib.interfaces.ItemClickListener;
 import org.katolika.fihirana.lib.interfaces.OnLoadMoreListener;
-import org.katolika.fihirana.lib.models.Hira;
 import org.katolika.fihirana.lib.models.Salamo;
 
-import java.util.List;
 import java.util.Locale;
 
 public class SalamoAdapter extends ListAdapter<Salamo, SalamoAdapter.SalamoHolder> {

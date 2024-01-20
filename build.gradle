@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    namespace 'org.katolika.fihirana.lib'
     signingConfigs {
         fanampiana {
             keyAlias 'fihirana-katolika-tao-fanampiana'
@@ -11,13 +12,13 @@ android {
             storeFile file('/media/hery/Data1000/dev/katolika/android/signin key/fka-key')
         }
     }
-    compileSdkVersion 30
+    compileSdkVersion 34
     flavorDimensions "normal"
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 30
-        versionCode 27
-        versionName "6.3"
+        targetSdkVersion 34
+        versionCode 28
+        versionName "6.4"
     }
     productFlavors {
         tsotra {
@@ -46,13 +47,12 @@ android.applicationVariants.all { variant ->
 
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.android.volley:volley:1.2.1'
-    implementation files('libs/android-sqlite-asset-helper.jar')
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
-    implementation "androidx.room:room-runtime:2.3.0"
-    annotationProcessor "androidx.room:room-compiler:2.3.0"
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation "androidx.room:room-runtime:2.6.1"
+    annotationProcessor "androidx.room:room-compiler:2.6.1"
     implementation 'com.android.volley:volley:1.2.1'
 
 }

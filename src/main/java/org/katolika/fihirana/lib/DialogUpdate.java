@@ -80,7 +80,9 @@ public class DialogUpdate extends BaseActivity {
                         //dia filazana hoe vita = true
                         if(eventListener == RequestQueue.RequestEvent.REQUEST_FINISHED) {
                             Log.d(TAG, "parent update finished");
+                            txtMessage.setText(R.string.upgrade_not_required);
                             updating = false;
+                            readyToClose();
                         }
                     });
                 }
@@ -243,6 +245,11 @@ public class DialogUpdate extends BaseActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            /***
+             * mila ovaina isaky ny mihetsika ihany ny fanovana
+             * amin'izay raha bloké dia tsy miverina hatramin'ny voalohany
+              */
 
             if(fanovanaList.size() > 0) {
                 fihiranaViewModel.insertChangeList(fanovanaList);

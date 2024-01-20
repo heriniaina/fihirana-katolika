@@ -12,6 +12,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import org.katolika.fihirana.lib.entities.Favorite;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 @Database(entities = {Favorite.class},version = 1, exportSchema = false)
 public abstract class FavoriteDatabase extends RoomDatabase {
@@ -19,6 +22,9 @@ public abstract class FavoriteDatabase extends RoomDatabase {
 
     public abstract FavoriteDao favoriteDao();
 
+    public static final int NUMBER_OF_THREADS = 4;
+
+    public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     public static synchronized FavoriteDatabase getInstance(Context context) {
         if (database == null) {
             database = Room.databaseBuilder(context.getApplicationContext(),

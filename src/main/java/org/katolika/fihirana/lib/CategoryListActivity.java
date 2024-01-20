@@ -30,10 +30,6 @@ public class CategoryListActivity extends BaseActivity {
 	private FihiranaViewModel fihiranaViewModel;
 
 	ArrayList<HashMap<String, String>> fList;
-	String[] sqliteIds;
-	DatabaseHelper db;
-
-	ListView lv;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

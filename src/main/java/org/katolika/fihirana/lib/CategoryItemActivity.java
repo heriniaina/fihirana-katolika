@@ -29,7 +29,6 @@ public class CategoryItemActivity extends BaseActivity {
 	int start = 0;
     int limit = 50;
 	ListView lv;
-	DatabaseHelper db;
 	FihiranaViewModel fihiranaViewModel;
 	HiraAdapter hiraAdapter;
 
