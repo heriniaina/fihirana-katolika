@@ -9,7 +9,9 @@ android {
         }
         tsotra {
             keyAlias 'fihirana-katolika'
-            storeFile file('/media/hery/Data1000/dev/katolika/android/signin key/fka-key')
+            storeFile file('/home/hery/dev/android/signin key/fka-key')
+            storePassword ''
+            keyPassword ''
         }
     }
     compileSdkVersion 34
@@ -17,8 +19,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 34
-        versionCode 28
-        versionName "6.4"
+        versionCode 29
+        versionName "6.4.1"
     }
     productFlavors {
         tsotra {
@@ -32,6 +34,7 @@ android {
         release {
             minifyEnabled true
             signingConfig signingConfigs.tsotra
+            debuggable false
         }
         debug {
         }

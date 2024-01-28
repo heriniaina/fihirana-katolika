@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey;
 public class Favorite {
 
     @PrimaryKey(autoGenerate = true)
-    int id;
+    Integer id;
 
-    int h_id;
+    Integer h_id;
 
     String h_title;
 
@@ -20,19 +20,19 @@ public class Favorite {
     public Favorite() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getH_id() {
+    public Integer getH_id() {
         return h_id;
     }
 
-    public void setH_id(int h_id) {
+    public void setH_id(Integer h_id) {
         this.h_id = h_id;
     }
 

@@ -35,11 +35,4 @@ public abstract class FavoriteDatabase extends RoomDatabase {
         return database;
     }
 
-    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("");
-        }
-    };
-
 }
