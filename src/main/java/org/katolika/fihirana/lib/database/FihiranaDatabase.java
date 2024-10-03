@@ -10,11 +10,15 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import org.katolika.fihirana.lib.entities.*;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Database(entities = {Hira.class, Fihirana.class, HiraFihirana.class, HiraSokajy.class, Sokajy.class, Salamo.class, Fanovana.class}, version = 2, exportSchema = false)
 public abstract class FihiranaDatabase extends RoomDatabase {
     private static FihiranaDatabase database;
     public abstract FihiranaDao fihiranaDao();
-
+    public static final int NUMBER_OF_THREADS = 4;
+    public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     public static synchronized FihiranaDatabase getInstance(Context context) {
         if (database == null) {
             database = Room.databaseBuilder(context.getApplicationContext(),

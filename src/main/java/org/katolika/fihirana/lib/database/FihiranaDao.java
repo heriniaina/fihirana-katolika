@@ -67,7 +67,7 @@ public interface FihiranaDao {
     @Update
     void updateHira(Hira hira);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertHira(Hira hira);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

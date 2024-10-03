@@ -104,7 +104,9 @@ public class FihiranaRepository {
     }
 
     public void updateHira(Hira hira) {
-        new UpdateHiraThread(fihiranaDao, hira).start();
+        FihiranaDatabase.databaseWriteExecutor.execute(() -> {
+            fihiranaDao.insertHira(hira);
+        });
     }
 
     public LiveData<List<Hira>> getHiraEmptyText() {
@@ -112,193 +114,7 @@ public class FihiranaRepository {
     }
 
     public void saveSokajyJson(int h_id, JSONArray sokajyArray) {
-        new SaveSokajyThread(fihiranaDao, h_id, sokajyArray).start();
-    }
-
-    public void saveFihiranaJson(int h_id, JSONArray fihiranaArray) {
-        new SaveFihiranaJsonThread(fihiranaDao, h_id, fihiranaArray).start();
-    }
-
-    public void insertHira(Hira hira) {
-        new InsertHiraThread(fihiranaDao, hira).start();
-    }
-
-    public void insertHiraList(List<Hira> hiraList) {
-        new InsertHiraListThread(fihiranaDao, hiraList).start();
-    }
-
-    public void updateHiraList(List<Hira> hiraList) {
-        new UpdateHiraListThread(fihiranaDao, hiraList).start();
-    }
-
-    public LiveData<Integer> getHiraEmptyTextCount() {
-        return fihiranaDao.getHiraEmptyTextCount();
-    }
-
-    public LiveData<Integer> getHiraCount() {
-        return fihiranaDao.getHiraCount();
-    }
-
-    public void updateChange(int id) {
-        new UpdateChangeThread(fihiranaDao, id).start();
-    }
-
-    public LiveData<Fanovana> getLastChange() {
-        return fihiranaDao.getLastChange();
-    }
-
-    public void deleteHiraById(int id) {
-        new DeleteHiraThread(fihiranaDao, id).start();
-    }
-
-    public void saveSalamoJson(int id, int salamo) {
-        new SaveSalamoJsonThread(fihiranaDao, id, salamo).start();
-    }
-
-    public void insertFihirana(org.katolika.fihirana.lib.entities.Fihirana fihirana) {
-        new InsertFihiranaThread(fihiranaDao, fihirana).start();
-    }
-
-    public void updateFihirana(org.katolika.fihirana.lib.entities.Fihirana fihirana) {
-        new UpdateFihiranaThread(fihiranaDao, fihirana).start();
-    }
-
-    public void insertFanovana(Fanovana fanovana) {
-        new InsertFanovanaThread(fihiranaDao, fanovana).start();
-    }
-
-    public void insertChangeList(List<Fanovana> fanovanaList) {
-        new InsertFanovanaListThread(fihiranaDao, fanovanaList).start();
-    }
-
-    private static class InsertFanovanaListThread extends Thread {
-        FihiranaDao fihiranaDao;
-        List<Fanovana> fanovanaList;
-
-        public InsertFanovanaListThread(FihiranaDao fihiranaDao, List<Fanovana> fanovanaList) {
-            this.fihiranaDao = fihiranaDao;
-            this.fanovanaList = fanovanaList;
-        }
-
-
-        @Override
-        public void run() {
-            fihiranaDao.insertFanovana(fanovanaList);
-        }
-    }
-
-    private static class InsertFanovanaThread extends Thread {
-        FihiranaDao fihiranaDao;
-        Fanovana fanovana;
-
-        public InsertFanovanaThread(FihiranaDao fihiranaDao, Fanovana fanovana) {
-            this.fihiranaDao = fihiranaDao;
-            this.fanovana = fanovana;
-        }
-
-
-        @Override
-        public void run() {
-            fihiranaDao.insertFanovana(fanovana);
-        }
-    }
-
-    private static class UpdateFihiranaThread extends  Thread {
-        FihiranaDao fihiranaDao;
-        org.katolika.fihirana.lib.entities.Fihirana fihirana;
-
-        public UpdateFihiranaThread(FihiranaDao fihiranaDao, org.katolika.fihirana.lib.entities.Fihirana fihirana) {
-            this.fihiranaDao = fihiranaDao;
-            this.fihirana = fihirana;
-        }
-
-
-        @Override
-        public void run() {
-            fihiranaDao.updateFihirana(fihirana);
-        }
-    }
-
-    private static class InsertFihiranaThread extends Thread {
-        FihiranaDao fihiranaDao;
-        org.katolika.fihirana.lib.entities.Fihirana fihirana;
-
-        public InsertFihiranaThread(FihiranaDao fihiranaDao, org.katolika.fihirana.lib.entities.Fihirana fihirana) {
-            this.fihirana = fihirana;
-            this.fihiranaDao = fihiranaDao;
-        }
-
-
-        @Override
-        public void run() {
-            fihiranaDao.insertFihirana(fihirana);
-        }
-    }
-
-    private static class SaveSalamoJsonThread extends Thread {
-        private FihiranaDao fihiranaDao;
-        private int h_id;
-        private int faha;
-
-        public SaveSalamoJsonThread(FihiranaDao fihiranaDao, int id, int faha) {
-            this.fihiranaDao = fihiranaDao;
-            this.h_id = id;
-            this.faha = faha;
-        }
-
-        @Override
-        public void run() {
-            fihiranaDao.deleteHiraFromSalamo(h_id);
-            org.katolika.fihirana.lib.entities.Salamo salamo = new org.katolika.fihirana.lib.entities.Salamo(h_id, h_id, faha);
-            fihiranaDao.insertHiraSalamo(salamo);
-        }
-    }
-
-    private static class SaveFihiranaJsonThread extends Thread {
-        private FihiranaDao fihiranaDao;
-        private int h_id;
-        private JSONArray fihiranaArray;
-
-        public SaveFihiranaJsonThread(FihiranaDao fihiranaDao, int h_id, JSONArray fihiranaArray) {
-            this.fihiranaDao = fihiranaDao;
-            this.h_id = h_id;
-            this.fihiranaArray = fihiranaArray;
-        }
-
-
-        @Override
-        public void run() {
-            fihiranaDao.deleteHiraFromFihirana(h_id);
-            List<HiraFihirana> hiraFihiranaList = new ArrayList<>();
-            try {
-                for (int i = 0; i < fihiranaArray.length(); i++) {
-
-                    HiraFihirana hiraFihirana = new HiraFihirana(fihiranaArray.getJSONObject(i).getInt("_id"), h_id, fihiranaArray.getJSONObject(i).getInt("f_id"), fihiranaArray.getJSONObject(i).getInt("f_page"));
-                    hiraFihiranaList.add(hiraFihirana);
-
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if (hiraFihiranaList.size() > 0) {
-                fihiranaDao.insertListHiraFihirana(hiraFihiranaList);
-            }
-        }
-    }
-
-    private static class SaveSokajyThread extends Thread {
-        private FihiranaDao fihiranaDao;
-        private int h_id;
-        private JSONArray sokajyArray;
-
-        public SaveSokajyThread(FihiranaDao fihiranaDao, int h_id, JSONArray sokajyArray) {
-            this.fihiranaDao = fihiranaDao;
-            this.h_id = h_id;
-            this.sokajyArray = sokajyArray;
-        }
-
-        @Override
-        public void run() {
+        FihiranaDatabase.databaseWriteExecutor.execute(() -> {
             fihiranaDao.deleteHiraFromSokajy(h_id);
             List<HiraSokajy> hiraSokajyList = new ArrayList<>();
             try {
@@ -312,105 +128,108 @@ public class FihiranaRepository {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if (hiraSokajyList.size() > 0) {
+            if (!hiraSokajyList.isEmpty()) {
                 Log.d(TAG, hiraSokajyList.toString());
                 fihiranaDao.insertListHiraSokajy(hiraSokajyList);
             }
-
-        }
+        });
     }
 
-    private static class UpdateHiraThread extends Thread {
-        private FihiranaDao fihiranaDao;
-        private Hira hira;
+    public void saveFihiranaJson(int h_id, JSONArray fihiranaArray) {
+        FihiranaDatabase.databaseWriteExecutor.execute(() -> {
+            fihiranaDao.deleteHiraFromFihirana(h_id);
+            List<HiraFihirana> hiraFihiranaList = new ArrayList<>();
+            try {
+                for (int i = 0; i < fihiranaArray.length(); i++) {
 
-        UpdateHiraThread(FihiranaDao fihiranaDao, Hira hira) {
-            this.fihiranaDao = fihiranaDao;
-            this.hira = hira;
-        }
+                    HiraFihirana hiraFihirana = new HiraFihirana(fihiranaArray.getJSONObject(i).getInt("_id"), h_id, fihiranaArray.getJSONObject(i).getInt("f_id"), fihiranaArray.getJSONObject(i).getInt("f_page"));
+                    hiraFihiranaList.add(hiraFihirana);
 
-        @Override
-        public void run() {
-            Log.d(TAG, "run: updated " + hira.getH_text());
-            fihiranaDao.updateHira(hira);
-        }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (!hiraFihiranaList.isEmpty()) {
+                fihiranaDao.insertListHiraFihirana(hiraFihiranaList);
+            }
+        });
+
     }
 
-    private static class InsertHiraThread extends Thread {
-        FihiranaDao fihiranaDao;
-        Hira hira;
-
-        InsertHiraThread(FihiranaDao fihiranaDao, Hira hira) {
-            this.fihiranaDao = fihiranaDao;
-            this.hira = hira;
-        }
-
-        @Override
-        public void run() {
+    public void insertHira(Hira hira) {
+        FihiranaDatabase.databaseWriteExecutor.execute(() -> {
             fihiranaDao.insertHira(hira);
-        }
+        });
     }
 
-    private static class InsertHiraListThread extends Thread {
-        FihiranaDao fihiranaDao;
-        List<Hira> hiraList;
-
-        InsertHiraListThread(FihiranaDao fihiranaDao, List<Hira> hiraList) {
-            this.fihiranaDao = fihiranaDao;
-            this.hiraList = hiraList;
-        }
-
-        @Override
-        public void run() {
+    public void insertHiraList(List<Hira> hiraList) {
+        FihiranaDatabase.databaseWriteExecutor.execute(() -> {
             fihiranaDao.insertListHira(hiraList);
-        }
+        });
     }
 
-    private static class UpdateHiraListThread extends Thread {
-        FihiranaDao fihiranaDao;
-        List<Hira> hiraList;
-
-        UpdateHiraListThread(FihiranaDao fihiranaDao, List<Hira> hiraList) {
-            this.fihiranaDao = fihiranaDao;
-            this.hiraList = hiraList;
-        }
-
-        @Override
-        public void run() {
+    public void updateHiraList(List<Hira> hiraList) {
+        FihiranaDatabase.databaseWriteExecutor.execute(() -> {
             fihiranaDao.updateHiraList(hiraList);
-        }
+        });
     }
 
-    private static class UpdateChangeThread extends Thread {
-        FihiranaDao fihiranaDao;
-        int id;
+    public LiveData<Integer> getHiraEmptyTextCount() {
+        return fihiranaDao.getHiraEmptyTextCount();
+    }
 
-        UpdateChangeThread(FihiranaDao fd, int id) {
-            this.fihiranaDao = fd;
-            this.id = id;
-        }
+    public LiveData<Integer> getHiraCount() {
+        return fihiranaDao.getHiraCount();
+    }
 
-        @Override
-        public void run() {
+    public void updateChange(int id) {
+
+        FihiranaDatabase.databaseWriteExecutor.execute(() -> {
             fihiranaDao.updateChange(id);
-        }
+                });
     }
 
-    private static class DeleteHiraThread extends Thread {
-        FihiranaDao fihiranaDao;
-        int id;
+    public LiveData<Fanovana> getLastChange() {
+        return fihiranaDao.getLastChange();
+    }
 
-        DeleteHiraThread(FihiranaDao fd, int id) {
-            this.fihiranaDao = fd;
-            this.id = id;
-        }
-
-        @Override
-        public void run() {
+    public void deleteHiraById(int id) {
+        FihiranaDatabase.databaseWriteExecutor.execute(() -> {
             fihiranaDao.deleteHiraById(id);
-            fihiranaDao.deleteHiraFromFihirana(id);
-            fihiranaDao.deleteHiraFromSalamo(id);
-            fihiranaDao.deleteHiraFromSokajy(id);
-        }
+        });
     }
+
+    public void saveSalamoJson(int h_id, int faha) {
+        FihiranaDatabase.databaseWriteExecutor.execute(() -> {
+            fihiranaDao.deleteHiraFromSalamo(h_id);
+            org.katolika.fihirana.lib.entities.Salamo salamo = new org.katolika.fihirana.lib.entities.Salamo(h_id, h_id, faha);
+            fihiranaDao.insertHiraSalamo(salamo);
+        });
+
+    }
+
+    public void insertFihirana(org.katolika.fihirana.lib.entities.Fihirana fihirana) {
+        FihiranaDatabase.databaseWriteExecutor.execute(()-> {
+            fihiranaDao.insertFihirana(fihirana);
+        });
+    }
+
+    public void updateFihirana(org.katolika.fihirana.lib.entities.Fihirana fihirana) {
+        FihiranaDatabase.databaseWriteExecutor.execute(() -> {
+            fihiranaDao.updateFihirana(fihirana);
+        });
+    }
+
+    public void insertFanovana(Fanovana fanovana) {
+        FihiranaDatabase.databaseWriteExecutor.execute(()-> {
+            fihiranaDao.insertFanovana(fanovana);
+        });
+    }
+
+    public void insertChangeList(List<Fanovana> fanovanaList) {
+        FihiranaDatabase.databaseWriteExecutor.execute(()-> {
+            fihiranaDao.insertFanovana(fanovanaList);
+        });
+    }
+
 }
