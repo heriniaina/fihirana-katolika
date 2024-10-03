@@ -20,7 +20,7 @@ Nanapa-kevitra izahay ny hamoaka ity tetikasa ity ho *Open source* ka mampiasa n
 Ny hira sy ny fihirana rehetra dia an'ny tompony avy. Raha tompon'ny hira ianao na tompon'ny fihirana ka maniry ny hanesorana ny fihirana na hira dia afaka mifandray aminay.
 
 ## Hanohana ara-bola
-Ny fanohanana ara-bola dia azonao atao amin'ny rohy hitanao eto https://katolika.org/hanampy-ara-bola koa dia misaotra anao sahady.
+Ny fanohanana ara-bola amin'ny hofan'ny lohamilina dia azonao atao amin'ny rohy hitanao eto https://katolika.org/hanampy-ara-bola koa dia misaotra anao sahady.
 
 
 
